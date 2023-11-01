@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ArrowButton: UIButton {
+class ToggleButton: UIButton {
     private var isExpanded = false
     
     override init(frame: CGRect) {

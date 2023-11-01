@@ -22,7 +22,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     private var toolViews: [ToolView]
     private var lastOpenedTool: ToolView?
     
-    private var layersBtn: ArrowButton!
+    private var layersBtn: ToggleButton!
     
     private var gradientLayer: CAGradientLayer!
     
@@ -81,7 +81,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         drumsView = addTool(UIImage(named: "drums")!)
         windsView = addTool(UIImage(named: "winds")!)
         
-        layersBtn = ArrowButton()
+        layersBtn = ToggleButton()
         layersBtn.setTitle("Слои", for: .normal)
         view.addSubview(layersBtn)
         
