@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AudioKit
+import AVFoundation
 
 class ViewController: UIViewController, ToolViewDelegate {
     
@@ -25,6 +27,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     private var layersBtn: ToggleButton!
     
     private var gradientLayer: CAGradientLayer!
+    
+    private let engine = AudioEngine()
+    private var player = AudioPlayer()
     
     // MARK: - init
 
@@ -139,6 +144,22 @@ class ViewController: UIViewController, ToolViewDelegate {
         } else {
             lastOpenedTool = nil
             updateToolViewsOpacity()
+        }
+    }
+    
+    func tapped(toolView: ToolView) {
+        if let path = Bundle.main.url(forResource: "1", withExtension: "wav", subdirectory: "Percussion") {
+            print("Путь к файлу: \(path)")
+            
+            engine.output = player
+            
+            try! engine.start()
+            
+            try! player.load(url: path)
+            player.play()
+            
+        } else {
+            print("Файл не найден")
         }
     }
 }

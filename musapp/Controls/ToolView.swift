@@ -10,6 +10,7 @@ import UIKit
 
 protocol ToolViewDelegate: AnyObject {
     func toggled(toolView: ToolView)
+    func tapped(toolView: ToolView)
 }
 
 class ToolView: UIView {
@@ -50,6 +51,7 @@ class ToolView: UIView {
         addSubview(titleLabel)
         
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:))))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
     }
     
     // MARK: - overridden base members
@@ -132,6 +134,12 @@ class ToolView: UIView {
         if gesture.state == .began {
             toggleOpen()
             delegate?.toggled(toolView: self)
+        }
+    }
+    
+    @objc func handleTap(_ gesture: UILongPressGestureRecognizer) {
+        if !isOpen {
+            delegate?.tapped(toolView: self)
         }
     }
 }

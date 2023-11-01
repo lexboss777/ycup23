@@ -15,6 +15,8 @@
 		88630B612AF01D36006297E2 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88630B602AF01D36006297E2 /* UIView.swift */; };
 		88A0CF0F2AF2B876006B08E4 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0CF0E2AF2B876006B08E4 /* UIColor.swift */; };
 		88A0CF122AF2C107006B08E4 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0CF112AF2C107006B08E4 /* Color.swift */; };
+		88A0CF262AF2E088006B08E4 /* Percussion in Resources */ = {isa = PBXBuildFile; fileRef = 88A0CF252AF2E088006B08E4 /* Percussion */; };
+		88A0CF292AF2E32D006B08E4 /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88A0CF282AF2E32D006B08E4 /* AudioKit */; };
 		88A62A0B2AF1931000F0F1DE /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A62A0A2AF1931000F0F1DE /* ToggleButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +31,7 @@
 		88630B602AF01D36006297E2 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		88A0CF0E2AF2B876006B08E4 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		88A0CF112AF2C107006B08E4 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		88A0CF252AF2E088006B08E4 /* Percussion */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Percussion; sourceTree = "<group>"; };
 		88A62A0A2AF1931000F0F1DE /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88A0CF292AF2E32D006B08E4 /* AudioKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +67,7 @@
 		88630B452AF011E2006297E2 /* musapp */ = {
 			isa = PBXGroup;
 			children = (
+				88A0CF132AF2DE02006B08E4 /* AudioSamples */,
 				88A0CF102AF2C0FB006B08E4 /* Style */,
 				88630B5A2AF01681006297E2 /* Controls */,
 				88630B462AF011E2006297E2 /* AppDelegate.swift */,
@@ -100,6 +105,14 @@
 			path = Style;
 			sourceTree = "<group>";
 		};
+		88A0CF132AF2DE02006B08E4 /* AudioSamples */ = {
+			isa = PBXGroup;
+			children = (
+				88A0CF252AF2E088006B08E4 /* Percussion */,
+			);
+			path = AudioSamples;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -116,6 +129,9 @@
 			dependencies = (
 			);
 			name = musapp;
+			packageProductDependencies = (
+				88A0CF282AF2E32D006B08E4 /* AudioKit */,
+			);
 			productName = musapp;
 			productReference = 88630B432AF011E2006297E2 /* musapp.app */;
 			productType = "com.apple.product-type.application";
@@ -144,6 +160,9 @@
 				Base,
 			);
 			mainGroup = 88630B3A2AF011E2006297E2;
+			packageReferences = (
+				88A0CF272AF2E32D006B08E4 /* XCRemoteSwiftPackageReference "AudioKit" */,
+			);
 			productRefGroup = 88630B442AF011E2006297E2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -159,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88630B502AF011E4006297E2 /* Assets.xcassets in Resources */,
+				88A0CF262AF2E088006B08E4 /* Percussion in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +404,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		88A0CF272AF2E32D006B08E4 /* XCRemoteSwiftPackageReference "AudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKit.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.6.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		88A0CF282AF2E32D006B08E4 /* AudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88A0CF272AF2E32D006B08E4 /* XCRemoteSwiftPackageReference "AudioKit" */;
+			productName = AudioKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 88630B3B2AF011E2006297E2 /* Project object */;
 }
