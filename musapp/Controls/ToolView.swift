@@ -24,6 +24,8 @@ class ToolView: UIView {
     
     public var isOpen: Bool = false
     
+    public var options: [String] = []
+    
     weak var delegate: ToolViewDelegate?
     
     // MARK: - init
@@ -56,7 +58,7 @@ class ToolView: UIView {
             })
         } else {
             
-            let edgeSize = 60.47
+            let edgeSize = 61.0
             UIView.animate(withDuration: 0.3, animations: {
                 self.setSize(edgeSize, edgeSize)
             })
@@ -80,7 +82,7 @@ class ToolView: UIView {
     
     func toggleOpen() {
         isOpen.toggle()
-        backgroundColor = isOpen ? UIColor(0x9CD92B) : .white
+        backgroundColor = isOpen ? .accent : .white
         superview?.setNeedsLayout()
     }
     

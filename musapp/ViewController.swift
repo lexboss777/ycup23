@@ -8,6 +8,10 @@
 import UIKit
 
 class ViewController: UIViewController, ToolViewDelegate {
+    
+    // MARK: - declaration
+    
+    let margin = 15.0
 
     // MARK: - properties
     
@@ -20,7 +24,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     private var layersBtn: ArrowButton!
     
-    // MARK: - ctor
+    private var gradientLayer: CAGradientLayer!
+    
+    // MARK: - init
 
     init() {
         toolViews = []
@@ -39,10 +45,27 @@ class ViewController: UIViewController, ToolViewDelegate {
         toolView.setData(icon)
         toolView.backgroundColor = .white
         toolView.layer.masksToBounds = true
+        
+        toolView.options.append("сэмпл 1")
+        toolView.options.append("сэмпл 2")
+        toolView.options.append("сэмпл 3")
+        
         view.addSubview(toolView)
         toolViews.append(toolView)
         
         return toolView
+    }
+    
+    private func updateToolViewsOpacity() {
+        if lastOpenedTool != nil {
+            toolViews.filter { $0 != lastOpenedTool }.forEach { toolView in
+                toolView.layer.opacity = 0.3
+            }
+        } else {
+            toolViews.forEach { toolView in
+                toolView.layer.opacity = 1
+            }
+        }
     }
     
     // MARK: - overridden base members
@@ -61,17 +84,24 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersBtn = ArrowButton()
         layersBtn.setTitle("Слои", for: .normal)
         view.addSubview(layersBtn)
+        
+        gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            UIColor.royalBlue.withAlphaComponent(0).cgColor,
+            UIColor.royalBlue.withAlphaComponent(1).cgColor
+        ]
+        gradientLayer.startPoint = CGPoint(x: 1, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        view.layer.addSublayer(gradientLayer)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let m = 15.0
+        let topMargin: CGFloat = view.safeAreaInsets.top + margin
+        let bottomMargin: CGFloat = view.safeAreaInsets.bottom + margin
         
-        let topMargin: CGFloat = view.safeAreaInsets.top + m
-        let bottomMargin: CGFloat = view.safeAreaInsets.bottom + m
-        
-        let toolsWidth = view.frame.width - m * 2
+        let toolsWidth = view.frame.width - margin * 2
         
         var toolEdgeSize = 0.0
         if !toolViews.isEmpty {
@@ -83,17 +113,23 @@ class ViewController: UIViewController, ToolViewDelegate {
         let spaceW = toolsWidth - CGFloat(toolViews.count) * toolEdgeSize
         let toolSpaceW = spaceW / CGFloat(toolViews.count - 1)
         
-        var x = m
+        var x = margin
+        var toolBottom = 0.0
         
         for tool in toolViews {
             tool.sizeToFit()
             tool.move(x, topMargin)
             x += toolEdgeSize + toolSpaceW
             tool.layer.cornerRadius = tool.frame.width / 2
+            toolBottom = tool.frame.maxY
         }
         
         layersBtn.sizeToFit()
-        layersBtn.move(m, view.frame.height - layersBtn.frame.height - bottomMargin)
+        layersBtn.move(margin, view.frame.height - layersBtn.frame.height - bottomMargin)
+        
+        let gradientY = toolBottom + 40
+        let gradientH = layersBtn.frame.minY - 54.0 - gradientY
+        gradientLayer.frame = CGRect(x: margin, y: gradientY, width: view.frame.width - 2 * margin, height: gradientH)
     }
     
     // MARK: - ToolViewDelegate
@@ -103,8 +139,11 @@ class ViewController: UIViewController, ToolViewDelegate {
         if toolView.isOpen {
             lastOpenedTool?.toggleOpen()
             lastOpenedTool = toolView
+            toolView.layer.opacity = 1
+            updateToolViewsOpacity()
         } else {
             lastOpenedTool = nil
+            updateToolViewsOpacity()
         }
     }
 }
