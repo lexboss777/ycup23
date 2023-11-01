@@ -22,22 +22,36 @@ class ToggleButton: UIButton {
     
     private func setupButton() {
         titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         setTitleColor(.black, for: .normal)
         backgroundColor = .white
         layer.cornerRadius = 8
         layer.masksToBounds = true
         
+        configuration = UIButton.Configuration.filled()
+        configuration!.baseBackgroundColor = .white
+        configuration!.baseForegroundColor = .black
+        configuration!.image = getImage("chevron.up")
+        configuration!.titlePadding = 10
+        configuration!.imagePadding = 10
+        configuration!.imagePlacement = .trailing
+        configuration!.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+    
+    private func getImage(_ name: String) -> UIImage? {
+        return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold));
     }
     
     @objc private func buttonTapped() {
         isExpanded.toggle()
         
         if isExpanded {
-            backgroundColor = .accent
+            configuration?.image = getImage("chevron.down")
+            configuration?.baseBackgroundColor = .accent
         } else {
-            backgroundColor = .white
+            configuration?.image = getImage("chevron.up")
+            configuration?.baseBackgroundColor = .white
         }
     }
 }
