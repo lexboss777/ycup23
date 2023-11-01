@@ -8,11 +8,23 @@
 import Foundation
 import UIKit
 
+protocol ToolViewDelegate: AnyObject {
+    func toggled(toolView: ToolView)
+}
+
 class ToolView: UIView {
     
     // MARK: - properties
     
     private let iconImV = UIImageView()
+    
+    public var alignBottom = false {
+        didSet { setNeedsLayout() }
+    }
+    
+    public var isOpen: Bool = false
+    
+    weak var delegate: ToolViewDelegate?
     
     // MARK: - init
     
@@ -27,21 +39,57 @@ class ToolView: UIView {
     }
     
     private func setup() {
+        layer.cornerRadius = 25
+        
         addSubview(iconImV)
+        
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:))))
     }
     
     // MARK: - overridden base members
     
-    override func layoutSubviews() {
+    override func sizeToFit() {
         
-        iconImV.sizeToFit()
-        iconImV.centerHorizontallyInView(self)
-        iconImV.setTop(frame.height - iconImV.frame.height + 4)
+        if isOpen {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.setHeight(300)
+            })
+        } else {
+            
+            let edgeSize = 60.47
+            UIView.animate(withDuration: 0.3, animations: {
+                self.setSize(edgeSize, edgeSize)
+            })
+            
+            iconImV.sizeToFit()
+            iconImV.centerHorizontallyInView(self)
+            
+            if alignBottom {
+                iconImV.setTop(frame.height - iconImV.frame.height + 4)
+            } else {
+                iconImV.centerInView(self)
+            }
+        }
     }
     
     // MARK: - public methods
     
     func setData(_ icon: UIImage ) {
         iconImV.image = icon
+    }
+    
+    func toggleOpen() {
+        isOpen.toggle()
+        backgroundColor = isOpen ? UIColor(0x9CD92B) : .white
+        superview?.setNeedsLayout()
+    }
+    
+    // MARK: - handlers
+    
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            toggleOpen()
+            delegate?.toggled(toolView: self)
+        }
     }
 }

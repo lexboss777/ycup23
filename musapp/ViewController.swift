@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, ToolViewDelegate {
 
     // MARK: - properties
     
@@ -16,6 +16,9 @@ class ViewController: UIViewController {
     private var windsView: ToolView!
     
     private var toolViews: [ToolView]
+    private var lastOpenedTool: ToolView?
+    
+    private var layersBtn: ArrowButton!
     
     // MARK: - ctor
 
@@ -30,8 +33,9 @@ class ViewController: UIViewController {
     
     // MARK: - private methods
     
-    private func addTool(_ icon: UIImage) -> ToolView {
+    private func addTool(_ icon: UIImage, _ alignBottom: Bool = false) -> ToolView {
         let toolView = ToolView()
+        toolView.delegate = self
         toolView.setData(icon)
         toolView.backgroundColor = .white
         toolView.layer.masksToBounds = true
@@ -49,25 +53,58 @@ class ViewController: UIViewController {
         view.backgroundColor = .black
         
         guitarView = addTool(UIImage(named: "guitar")!)
-        guitarView = addTool(UIImage(named: "drums")!)
-        guitarView = addTool(UIImage(named: "winds")!)
+        guitarView.alignBottom = true
+        
+        drumsView = addTool(UIImage(named: "drums")!)
+        windsView = addTool(UIImage(named: "winds")!)
+        
+        layersBtn = ArrowButton()
+        layersBtn.setTitle("Слои", for: .normal)
+        view.addSubview(layersBtn)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let topMargin: CGFloat = view.safeAreaInsets.top + 15
-        let margin: CGFloat = 20
+        let m = 15.0
         
-        let toolsHorizontalMargin = 15.0
-        let toolsWidth = view.frame.width - toolsHorizontalMargin * 2
-        let toolEdgeSize = 60.47
+        let topMargin: CGFloat = view.safeAreaInsets.top + m
+        let bottomMargin: CGFloat = view.safeAreaInsets.bottom + m
+        
+        let toolsWidth = view.frame.width - m * 2
+        
+        var toolEdgeSize = 0.0
+        if !toolViews.isEmpty {
+            let toolView = toolViews[0]
+            toolView.sizeToFit()
+            toolEdgeSize = toolView.frame.width
+        }
+        
         let spaceW = toolsWidth - CGFloat(toolViews.count) * toolEdgeSize
         let toolSpaceW = spaceW / CGFloat(toolViews.count - 1)
         
+        var x = m
+        
         for tool in toolViews {
-            tool.frame = CGRect(margin, topMargin, toolEdgeSize, toolEdgeSize)
-            tool.layer.cornerRadius = guitarView.frame.width / 2
+            tool.sizeToFit()
+            tool.move(x, topMargin)
+            x += toolEdgeSize + toolSpaceW
+            tool.layer.cornerRadius = tool.frame.width / 2
+        }
+        
+        layersBtn.sizeToFit()
+        layersBtn.move(m, view.frame.height - layersBtn.frame.height - bottomMargin)
+    }
+    
+    // MARK: - ToolViewDelegate
+
+    func toggled(toolView: ToolView) {
+        
+        if toolView.isOpen {
+            lastOpenedTool?.toggleOpen()
+            lastOpenedTool = toolView
+        } else {
+            lastOpenedTool = nil
         }
     }
 }

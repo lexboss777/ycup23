@@ -13,6 +13,8 @@
 		88630B5C2AF01699006297E2 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88630B5B2AF01699006297E2 /* ToolView.swift */; };
 		88630B5F2AF01A0A006297E2 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88630B5E2AF01A0A006297E2 /* CGRect.swift */; };
 		88630B612AF01D36006297E2 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88630B602AF01D36006297E2 /* UIView.swift */; };
+		88A0CF0F2AF2B876006B08E4 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0CF0E2AF2B876006B08E4 /* UIColor.swift */; };
+		88A62A0B2AF1931000F0F1DE /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A62A0A2AF1931000F0F1DE /* ArrowButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		88630B5B2AF01699006297E2 /* ToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
 		88630B5E2AF01A0A006297E2 /* CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		88630B602AF01D36006297E2 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		88A0CF0E2AF2B876006B08E4 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		88A62A0A2AF1931000F0F1DE /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				88630B5B2AF01699006297E2 /* ToolView.swift */,
+				88A62A0A2AF1931000F0F1DE /* ArrowButton.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -79,6 +84,7 @@
 			children = (
 				88630B602AF01D36006297E2 /* UIView.swift */,
 				88630B5E2AF01A0A006297E2 /* CGRect.swift */,
+				88A0CF0E2AF2B876006B08E4 /* UIColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -152,6 +158,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88A62A0B2AF1931000F0F1DE /* ArrowButton.swift in Sources */,
+				88A0CF0F2AF2B876006B08E4 /* UIColor.swift in Sources */,
 				88630B612AF01D36006297E2 /* UIView.swift in Sources */,
 				88630B4B2AF011E2006297E2 /* ViewController.swift in Sources */,
 				88630B5C2AF01699006297E2 /* ToolView.swift in Sources */,
