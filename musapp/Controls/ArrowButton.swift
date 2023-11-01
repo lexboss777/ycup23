@@ -35,10 +35,8 @@ class ArrowButton: UIButton {
         isExpanded.toggle()
         
         if isExpanded {
-            setTitleColor(.white, for: .normal)
-            backgroundColor = .green
+            backgroundColor = .accent
         } else {
-            setTitleColor(.black, for: .normal)
             backgroundColor = .white
         }
     }
