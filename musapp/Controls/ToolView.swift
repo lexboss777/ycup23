@@ -17,6 +17,7 @@ class ToolView: UIView {
     // MARK: - properties
     
     private let iconImV = UIImageView()
+    private let titleLabel = UILabel()
     private var buttons = Array<UIButton>()
     
     public var alignBottom = false {
@@ -42,7 +43,11 @@ class ToolView: UIView {
     private func setup() {
         layer.cornerRadius = 25
         
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        
         addSubview(iconImV)
+        addSubview(titleLabel)
         
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:))))
     }
@@ -81,6 +86,10 @@ class ToolView: UIView {
             iconImV.sizeToFit()
             iconImV.centerHorizontallyInView(self)
             
+            titleLabel.sizeToFit()
+            titleLabel.centerHorizontallyInView(self)
+            titleLabel.setTop(edgeSize + 9)
+            
             if alignBottom {
                 iconImV.setTop(frame.height - iconImV.frame.height + 4)
             } else {
@@ -91,8 +100,10 @@ class ToolView: UIView {
     
     // MARK: - public methods
     
-    func setData(_ icon: UIImage, _ options: [String]) {
+    func setData(_ icon: UIImage, _ title: String, _ options: [String]) {
         iconImV.image = icon
+        
+        titleLabel.text = title
         
         for button in buttons {
             button.removeFromSuperview()
@@ -111,6 +122,7 @@ class ToolView: UIView {
     func toggleOpen() {
         isOpen.toggle()
         backgroundColor = isOpen ? .accent : .white
+        titleLabel.isHidden = isOpen
         superview?.setNeedsLayout()
     }
     

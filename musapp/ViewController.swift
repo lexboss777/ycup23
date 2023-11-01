@@ -39,12 +39,11 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     // MARK: - private methods
     
-    private func addTool(_ icon: UIImage, _ alignBottom: Bool = false) -> ToolView {
+    private func addTool(_ icon: UIImage, _ title: String, _ alignBottom: Bool = false) -> ToolView {
         let toolView = ToolView()
         toolView.delegate = self
-        toolView.setData(icon, ["сэмпл 1", "сэмпл 2", "сэмпл 3"])
+        toolView.setData(icon, title, ["сэмпл 1", "сэмпл 2", "сэмпл 3"])
         toolView.backgroundColor = .white
-        toolView.layer.masksToBounds = true
         
         view.addSubview(toolView)
         toolViews.append(toolView)
@@ -71,11 +70,11 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        guitarView = addTool(UIImage(named: "guitar")!)
+        guitarView = addTool(UIImage(named: "guitar")!, "гитара")
         guitarView.alignBottom = true
         
-        drumsView = addTool(UIImage(named: "drums")!)
-        windsView = addTool(UIImage(named: "winds")!)
+        drumsView = addTool(UIImage(named: "drums")!, "ударные")
+        windsView = addTool(UIImage(named: "winds")!, "духовые")
         
         layersBtn = ToggleButton()
         layersBtn.setTitle("Слои", for: .normal)
