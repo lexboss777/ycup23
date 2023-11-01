@@ -17,14 +17,13 @@ class ToolView: UIView {
     // MARK: - properties
     
     private let iconImV = UIImageView()
+    private var buttons = Array<UIButton>()
     
     public var alignBottom = false {
         didSet { setNeedsLayout() }
     }
     
     public var isOpen: Bool = false
-    
-    public var options: [String] = []
     
     weak var delegate: ToolViewDelegate?
     
@@ -52,14 +51,30 @@ class ToolView: UIView {
     
     override func sizeToFit() {
         
+        let animDuration = 0.3
+        let edgeSize = 61.0
+        let buttonsTopMargin = 23.0
+        let buttonsBottomMargin = 38.0
+        let buttonsInterMargin = 21.0
+        
         if isOpen {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.setHeight(300)
+            
+            var h = edgeSize + buttonsTopMargin
+            
+            for button in buttons {
+                button.sizeToFit()
+                button.centerHorizontallyInView(self)
+                button.setTop(h)
+                h += button.frame.height + buttonsInterMargin
+            }
+            
+            UIView.animate(withDuration: animDuration, animations: {
+                self.setHeight(h - buttonsInterMargin + buttonsBottomMargin)
             })
+            
         } else {
             
-            let edgeSize = 61.0
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: animDuration, animations: {
                 self.setSize(edgeSize, edgeSize)
             })
             
@@ -76,8 +91,21 @@ class ToolView: UIView {
     
     // MARK: - public methods
     
-    func setData(_ icon: UIImage ) {
+    func setData(_ icon: UIImage, _ options: [String]) {
         iconImV.image = icon
+        
+        for button in buttons {
+            button.removeFromSuperview()
+        }
+        
+        for option in options {
+            let button = UIButton(type: .system)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+            button.setTitle(option, for: .normal)
+            button.setTitleColor(.black, for: .normal)
+            buttons.append(button)
+            addSubview(button)
+        }
     }
     
     func toggleOpen() {

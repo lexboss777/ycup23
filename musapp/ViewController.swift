@@ -42,13 +42,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     private func addTool(_ icon: UIImage, _ alignBottom: Bool = false) -> ToolView {
         let toolView = ToolView()
         toolView.delegate = self
-        toolView.setData(icon)
+        toolView.setData(icon, ["сэмпл 1", "сэмпл 2", "сэмпл 3"])
         toolView.backgroundColor = .white
         toolView.layer.masksToBounds = true
-        
-        toolView.options.append("сэмпл 1")
-        toolView.options.append("сэмпл 2")
-        toolView.options.append("сэмпл 3")
         
         view.addSubview(toolView)
         toolViews.append(toolView)
