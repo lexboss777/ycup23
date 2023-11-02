@@ -27,6 +27,8 @@ class ViewController: UIViewController, ToolViewDelegate {
     private var layersBtn: ToggleButton!
     internal var layersTableView: UITableView!
     
+    private var playBtn: UIButton!
+    
     internal var layers = Array<AudioLayer>()
     internal var layerCellH = 46.0
     internal var playingLayerUUID: UUID?
@@ -98,6 +100,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         return layer
     }
     
+    private func getImage(_ name: String) -> UIImage? {
+        return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold));
+    }
+    
     // MARK: - internal methods
     
     internal func updateLayers() {
@@ -159,6 +165,17 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersTableView.delegate = self
         layersTableView.register(LayerCell.self, forCellReuseIdentifier: LayerCell.identifier)
         view.addSubview(layersTableView)
+        
+        let btnRad = 4.0
+        
+        playBtn = UIButton(type: .system)
+        var configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = .white
+        configuration.baseForegroundColor = .black
+        configuration.image = getImage("play.fill")
+        playBtn.layer.cornerRadius = btnRad
+        playBtn.configuration = configuration
+        view.addSubview(playBtn)
     }
     
     override func viewDidLayoutSubviews() {
@@ -192,6 +209,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         layersBtn.sizeToFit()
         layersBtn.move(margin, view.frame.height - layersBtn.frame.height - bottomMargin)
+        
+        playBtn.setSize(34, 34)
+        playBtn.move(view.frame.width - playBtn.frame.width - margin, layersBtn.frame.minY)
         
         let spectrumH = 54.0
         
