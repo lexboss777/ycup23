@@ -100,14 +100,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        guitarView = addTool(UIImage(systemName: "swift")!, "-")
+        guitarView = addTool(UIImage(named: "guitar")!, "гитара")
         guitarView.alignBottom = true
         
-        drumsView = addTool(UIImage(systemName: "swift")!, "-")
-        windsView = addTool(UIImage(systemName: "swift")!, "-")
+        drumsView = addTool(UIImage(named: "drums")!, "ударные")
+        windsView = addTool(UIImage(named: "winds")!, "духовые")
         
         layersBtn = ToggleButton()
-        layersBtn.setTitle("layers", for: .normal)
+        layersBtn.setTitle("Слои", for: .normal)
         layersBtn.addAction {
             self.layersTableView.isHidden.toggle()
             self.view.setNeedsLayout()
