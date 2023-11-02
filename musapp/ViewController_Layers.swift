@@ -25,6 +25,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         let layer = layers[row]
         
         cell.setData("\(layer.toolName.capitalized) \(layer.sample.name)")
+        cell.setIsPlaying(layer.id == playingLayerUUID)
         cell.delegate = self
         
         return cell
@@ -40,7 +41,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
     
     func delete(cell: LayerCell) {
         if let indexPath = layersTableView.indexPath(for: cell) {
-            layers.remove(at: indexPath.row)
+            let row = indexPath.row
+            let layer = layers[row]
+            if layer.id == playingLayerUUID {
+                stopPlay()
+            }
+            layers.remove(at: row)
             updateLayers()
         }
     }
@@ -48,7 +54,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
     func play(cell: LayerCell) {
         if let indexPath = layersTableView.indexPath(for: cell) {
             let layer = layers[indexPath.row]
-            play(sample: layer.sample)
+            play(layer: layer)
+            updateLayers()
         }
     }
 }

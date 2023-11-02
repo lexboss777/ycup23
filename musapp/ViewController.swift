@@ -29,6 +29,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     internal var layers = Array<AudioLayer>()
     internal var layerCellH = 46.0
+    internal var playingLayerUUID: UUID?
     
     private var gradientLayer: CAGradientLayer!
     
@@ -40,6 +41,10 @@ class ViewController: UIViewController, ToolViewDelegate {
     init() {
         toolViews = []
         super.init(nibName: nil, bundle: nil)
+        player.completionHandler = {
+            self.stopPlay()
+            self.updateLayers()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -86,9 +91,11 @@ class ViewController: UIViewController, ToolViewDelegate {
         return samples
     }
     
-    private func appendToLayers(toolName: String?, sample: AudioSample) {
-        layers.append(AudioLayer(toolName: toolName ?? "", sample: sample))
-        updateLayers()
+    private func appendToLayers(toolName: String?, sample: AudioSample) -> AudioLayer {
+        let layer = AudioLayer(toolName: toolName ?? "", sample: sample)
+        layers.append(layer)
+        
+        return layer
     }
     
     // MARK: - internal methods
@@ -98,10 +105,20 @@ class ViewController: UIViewController, ToolViewDelegate {
         view.setNeedsLayout()
     }
     
-    internal func play(sample: AudioSample) {
+    internal func stopPlay() {
+        playingLayerUUID = nil
+        player.stop()
+    }
+    
+    internal func play(layer: AudioLayer) {
+        stopPlay()
+        
+        playingLayerUUID = layer.id
+        
         engine.output = player
         try! engine.start()
-        try! player.load(url: sample.path)
+        try! player.load(url: layer.sample.path)
+        
         player.play()
     }
     
@@ -215,12 +232,14 @@ class ViewController: UIViewController, ToolViewDelegate {
             return
         }
         
-        play(sample: sample)
-        appendToLayers(toolName: toolView.getTitle(), sample: sample)
+        let layer = appendToLayers(toolName: toolView.getTitle(), sample: sample)
+        play(layer: layer)
+        updateLayers()
     }
     
     func sampleTapped(_ toolView: ToolView, _ sample: AudioSample) {
         appendToLayers(toolName: toolView.getTitle(), sample: sample)
+        updateLayers()
     }
 }
 

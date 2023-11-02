@@ -8,6 +8,13 @@
 import Foundation
 
 struct AudioLayer {
+    let id: UUID
     let toolName: String
     let sample: AudioSample
+    
+    init(toolName: String, sample: AudioSample) {
+        id = UUID()
+        self.toolName = toolName
+        self.sample = sample
+    }
 }

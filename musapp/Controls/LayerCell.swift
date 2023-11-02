@@ -19,6 +19,9 @@ class LayerCell: UITableViewCell {
     
     static let identifier = "layer_cell"
     
+    let playIcon = "play.fill"
+    let pauseIcon = "pause.fill"
+    
     private let topPadding = 7.0
     private let rad = 4.0
     
@@ -69,9 +72,14 @@ class LayerCell: UITableViewCell {
         
         containerView.addSubview(playBtn)
         playBtn.addAction {
-            self.delegate?.play(cell: self)
+            guard let delegate = self.delegate else {
+                return
+            }
+            
+            delegate.play(cell: self)
+            self.setIsPlaying(true)
         }
-        configure(btn: playBtn, "play.fill", UIColor.white)
+        configure(btn: playBtn, playIcon, UIColor.white)
     }
     
     // MARK: - private methods
@@ -116,5 +124,9 @@ class LayerCell: UITableViewCell {
     
     func setData(_ title: String) {
         titleLabel.text = title
+    }
+    
+    func setIsPlaying(_ playing: Bool) {
+        self.playBtn.configuration?.image = getImage(playing ? pauseIcon : playIcon)
     }
 }
