@@ -11,6 +11,7 @@ import UIKit
 protocol ToolViewDelegate: AnyObject {
     func toggled(toolView: ToolView)
     func tapped(toolView: ToolView)
+    func sampleTapped(sample: AudioSample)
 }
 
 class ToolView: UIView {
@@ -20,6 +21,8 @@ class ToolView: UIView {
     private let iconImV = UIImageView()
     private let titleLabel = UILabel()
     private var buttons = Array<UIButton>()
+    
+    private var data: Array<AudioSample>!
     
     public var alignBottom = false {
         didSet { setNeedsLayout() }
@@ -102,7 +105,7 @@ class ToolView: UIView {
     
     // MARK: - public methods
     
-    func setData(_ icon: UIImage, _ title: String, _ options: [String]) {
+    func setData(_ icon: UIImage, _ title: String, _ data: [AudioSample]) {
         iconImV.image = icon
         
         titleLabel.text = title
@@ -111,13 +114,16 @@ class ToolView: UIView {
             button.removeFromSuperview()
         }
         
-        for option in options {
+        self.data = data
+        
+        for item in data {
             let button = UIButton(type: .system)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-            button.setTitle(option, for: .normal)
+            button.setTitle(item.name, for: .normal)
             button.setTitleColor(.black, for: .normal)
             buttons.append(button)
             addSubview(button)
+            button.addTarget(self, action: #selector(sampleTapped), for: .touchUpInside)
         }
     }
     
@@ -140,6 +146,13 @@ class ToolView: UIView {
     @objc func handleTap(_ gesture: UILongPressGestureRecognizer) {
         if !isOpen {
             delegate?.tapped(toolView: self)
+        }
+    }
+    
+    @objc func sampleTapped(_ sender: UIButton) {
+        if let index = buttons.firstIndex(of: sender) {
+            let sample = data[index]
+            delegate?.sampleTapped(sample: sample)
         }
     }
 }

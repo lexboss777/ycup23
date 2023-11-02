@@ -25,6 +25,10 @@ class ViewController: UIViewController, ToolViewDelegate {
     private var lastOpenedTool: ToolView?
     
     private var layersBtn: ToggleButton!
+    internal var layersTableView: UITableView!
+    
+    internal var layers = Array<AudioLayer>()
+    internal var layerCellH = 46.0
     
     private var gradientLayer: CAGradientLayer!
     
@@ -47,7 +51,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     private func addTool(_ icon: UIImage, _ title: String, _ alignBottom: Bool = false) -> ToolView {
         let toolView = ToolView()
         toolView.delegate = self
-        toolView.setData(icon, title, ["сэмпл 1", "сэмпл 2", "сэмпл 3"])
+        toolView.setData(icon, title, getAudioSamples("Percussion"))
         toolView.backgroundColor = .white
         
         view.addSubview(toolView)
@@ -68,6 +72,27 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
     }
     
+    private func getAudioSamples(_ subdir: String) -> [AudioSample] {
+        var samples = Array<AudioSample>()
+        
+        if var paths = Bundle.main.urls(forResourcesWithExtension: "wav", subdirectory: subdir) {
+            paths.sort() { $0.path < $1.path }
+            
+            for path in paths {
+                samples.append(AudioSample(path: path, name: path.deletingPathExtension().lastPathComponent))
+            }
+        }
+        
+        return samples
+    }
+    
+    // MARK: - internal methods
+    
+    internal func updateLayers() {
+        layersTableView.reloadData()
+        view.setNeedsLayout()
+    }
+    
     // MARK: - overridden base members
     
     override func viewDidLoad() {
@@ -75,14 +100,18 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        guitarView = addTool(UIImage(named: "guitar")!, "гитара")
+        guitarView = addTool(UIImage(systemName: "swift")!, "-")
         guitarView.alignBottom = true
         
-        drumsView = addTool(UIImage(named: "drums")!, "ударные")
-        windsView = addTool(UIImage(named: "winds")!, "духовые")
+        drumsView = addTool(UIImage(systemName: "swift")!, "-")
+        windsView = addTool(UIImage(systemName: "swift")!, "-")
         
         layersBtn = ToggleButton()
-        layersBtn.setTitle("Слои", for: .normal)
+        layersBtn.setTitle("layers", for: .normal)
+        layersBtn.addAction {
+            self.layersTableView.isHidden.toggle()
+            self.view.setNeedsLayout()
+        }
         view.addSubview(layersBtn)
         
         gradientLayer = CAGradientLayer()
@@ -93,6 +122,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         gradientLayer.startPoint = CGPoint(x: 1, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         view.layer.addSublayer(gradientLayer)
+        
+        layersTableView = UITableView()
+        layersTableView.backgroundColor = .clear
+        layersTableView.isHidden = true
+        layersTableView.dataSource = self
+        layersTableView.delegate = self
+        layersTableView.register(LayerCell.self, forCellReuseIdentifier: LayerCell.identifier)
+        view.addSubview(layersTableView)
     }
     
     override func viewDidLayoutSubviews() {
@@ -127,13 +164,26 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersBtn.sizeToFit()
         layersBtn.move(margin, view.frame.height - layersBtn.frame.height - bottomMargin)
         
-        let gradientY = toolBottom + 40
-        let gradientH = layersBtn.frame.minY - 54.0 - gradientY
-        gradientLayer.frame = CGRect(x: margin, y: gradientY, width: view.frame.width - 2 * margin, height: gradientH)
+        let spectrumH = 54.0
+        
+        let gradientAdditionalTopMargin = 40.0
+        let gradientW = view.frame.width - 2 * margin
+        let gradientY = toolBottom + gradientAdditionalTopMargin
+        let gradientH = layersBtn.frame.minY - spectrumH - gradientY
+        gradientLayer.frame = CGRect(x: margin, y: gradientY, width: gradientW, height: gradientH)
+        
+        let layersTableViewContentH = layerCellH * CGFloat(layers.count)
+        let layersTableViewMaxH = gradientH
+        layersTableView.setWidth(gradientW)
+        layersTableView.setHeight(min(layersTableViewMaxH, layersTableViewContentH))
+        layersTableView.setLeft(margin)
+        layersTableView.setTop(layersBtn.frame.minY - spectrumH - layersTableView.frame.height)
     }
     
     // MARK: - ToolViewDelegate
 
+    // called when toolView changed it's state: opened or closed
+    
     func toggled(toolView: ToolView) {
         
         if toolView.isOpen {
@@ -161,6 +211,11 @@ class ViewController: UIViewController, ToolViewDelegate {
         } else {
             print("Файл не найден")
         }
+    }
+    
+    func sampleTapped(sample: AudioSample) {
+        layers.append(AudioLayer(sample: sample))
+        updateLayers()
     }
 }
 
