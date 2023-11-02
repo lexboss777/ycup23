@@ -51,10 +51,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         }
     }
     
-    func play(cell: LayerCell) {
+    func playOrStop(cell: LayerCell) {
         if let indexPath = layersTableView.indexPath(for: cell) {
             let layer = layers[indexPath.row]
-            play(layer: layer)
+            if layer.id == playingLayerUUID {
+                stopPlay()
+            } else {
+                play(layer: layer)
+            }
             updateLayers()
         }
     }

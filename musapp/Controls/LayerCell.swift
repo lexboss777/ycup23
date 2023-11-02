@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol LayerCellDelegate: AnyObject {
-    func play(cell: LayerCell)
+    func playOrStop(cell: LayerCell)
     func delete(cell: LayerCell)
 }
 
@@ -34,7 +34,9 @@ class LayerCell: UITableViewCell {
     
     private var deleteBtn = UIButton(type: .system)
     private var muteBtn = UIButton(type: .system)
+    
     private var playBtn = UIButton(type: .system)
+    private var playing: Bool = false
     
     var delegate: LayerCellDelegate?
     
@@ -76,8 +78,9 @@ class LayerCell: UITableViewCell {
                 return
             }
             
-            delegate.play(cell: self)
-            self.setIsPlaying(true)
+            delegate.playOrStop(cell: self)
+            self.playing.toggle()
+            self.setIsPlaying(self.playing)
         }
         configure(btn: playBtn, playIcon, UIColor.white)
     }
@@ -127,6 +130,7 @@ class LayerCell: UITableViewCell {
     }
     
     func setIsPlaying(_ playing: Bool) {
+        self.playing = playing
         self.playBtn.configuration?.image = getImage(playing ? pauseIcon : playIcon)
     }
 }
