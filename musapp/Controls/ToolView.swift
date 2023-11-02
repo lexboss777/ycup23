@@ -61,7 +61,7 @@ class ToolView: UIView {
     
     override func sizeToFit() {
         
-        let animDuration = 0.3
+        var animDuration = 0.3
         let edgeSize = 61.0
         let buttonsTopMargin = 23.0
         let buttonsBottomMargin = 38.0
@@ -83,6 +83,10 @@ class ToolView: UIView {
             })
             
         } else {
+            
+            if frame.isEmpty {
+                animDuration = 0
+            }
             
             UIView.animate(withDuration: animDuration, animations: {
                 self.setSize(edgeSize, edgeSize)
