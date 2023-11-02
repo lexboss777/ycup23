@@ -8,5 +8,6 @@
 import Foundation
 
 struct AudioLayer {
+    let toolName: String
     let sample: AudioSample
 }

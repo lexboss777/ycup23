@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 protocol LayerCellDelegate: AnyObject {
+    func play(cell: LayerCell)
     func delete(cell: LayerCell)
 }
 
@@ -47,6 +48,7 @@ class LayerCell: UITableViewCell {
     }
     
     private func setup() {
+        selectionStyle = .none
         backgroundColor = .clear
         
         containerView.backgroundColor = .white
@@ -60,12 +62,15 @@ class LayerCell: UITableViewCell {
         deleteBtn.addAction {
             self.delegate?.delete(cell: self)
         }
-        configure(btn: deleteBtn, "xmark", UIColor.lightGray)
+        configure(btn: deleteBtn, "xmark", UIColor(0xE4E4E4))
         
         containerView.addSubview(muteBtn)
         configure(btn: muteBtn, "speaker.slash.fill", UIColor.white)
         
         containerView.addSubview(playBtn)
+        playBtn.addAction {
+            self.delegate?.play(cell: self)
+        }
         configure(btn: playBtn, "play.fill", UIColor.white)
     }
     

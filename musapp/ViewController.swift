@@ -48,12 +48,12 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     // MARK: - private methods
     
-    private func addTool(_ icon: UIImage, _ title: String, _ alignBottom: Bool = false) -> ToolView {
+    private func addTool(_ icon: UIImage, _ title: String, _ samples: [AudioSample]) -> ToolView {
         let toolView = ToolView()
         toolView.delegate = self
-        toolView.setData(icon, title, getAudioSamples("Percussion"))
+        toolView.setData(icon, title, samples)
         toolView.backgroundColor = .white
-        
+        toolView.layer.masksToBounds = true
         view.addSubview(toolView)
         toolViews.append(toolView)
         
@@ -86,11 +86,23 @@ class ViewController: UIViewController, ToolViewDelegate {
         return samples
     }
     
+    private func appendToLayers(toolName: String?, sample: AudioSample) {
+        layers.append(AudioLayer(toolName: toolName ?? "", sample: sample))
+        updateLayers()
+    }
+    
     // MARK: - internal methods
     
     internal func updateLayers() {
         layersTableView.reloadData()
         view.setNeedsLayout()
+    }
+    
+    internal func play(sample: AudioSample) {
+        engine.output = player
+        try! engine.start()
+        try! player.load(url: sample.path)
+        player.play()
     }
     
     // MARK: - overridden base members
@@ -100,11 +112,11 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        guitarView = addTool(UIImage(named: "guitar")!, "гитара")
+        guitarView = addTool(UIImage(named: "guitar")!, "гитара", getAudioSamples("Guitar"))
         guitarView.alignBottom = true
         
-        drumsView = addTool(UIImage(named: "drums")!, "ударные")
-        windsView = addTool(UIImage(named: "winds")!, "духовые")
+        drumsView = addTool(UIImage(named: "drums")!, "ударные", getAudioSamples("Percussion"))
+        windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
         
         layersBtn = ToggleButton()
         layersBtn.setTitle("Слои", for: .normal)
@@ -198,24 +210,17 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     func tapped(toolView: ToolView) {
-        if let path = Bundle.main.url(forResource: "1", withExtension: "wav", subdirectory: "Percussion") {
-            print("Путь к файлу: \(path)")
-            
-            engine.output = player
-            
-            try! engine.start()
-            
-            try! player.load(url: path)
-            player.play()
-            
-        } else {
-            print("Файл не найден")
+        
+        guard let sample = toolView.samples.first else {
+            return
         }
+        
+        play(sample: sample)
+        appendToLayers(toolName: toolView.getTitle(), sample: sample)
     }
     
-    func sampleTapped(sample: AudioSample) {
-        layers.append(AudioLayer(sample: sample))
-        updateLayers()
+    func sampleTapped(_ toolView: ToolView, _ sample: AudioSample) {
+        appendToLayers(toolName: toolView.getTitle(), sample: sample)
     }
 }
 

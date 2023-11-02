@@ -24,7 +24,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         
         let layer = layers[row]
         
-        cell.setData(layer.sample.name)
+        cell.setData("\(layer.toolName.capitalized) \(layer.sample.name)")
         cell.delegate = self
         
         return cell
@@ -42,6 +42,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         if let indexPath = layersTableView.indexPath(for: cell) {
             layers.remove(at: indexPath.row)
             updateLayers()
+        }
+    }
+    
+    func play(cell: LayerCell) {
+        if let indexPath = layersTableView.indexPath(for: cell) {
+            let layer = layers[indexPath.row]
+            play(sample: layer.sample)
         }
     }
 }

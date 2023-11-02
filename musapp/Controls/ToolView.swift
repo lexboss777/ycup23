@@ -11,7 +11,7 @@ import UIKit
 protocol ToolViewDelegate: AnyObject {
     func toggled(toolView: ToolView)
     func tapped(toolView: ToolView)
-    func sampleTapped(sample: AudioSample)
+    func sampleTapped(_ toolView: ToolView, _ sample: AudioSample)
 }
 
 class ToolView: UIView {
@@ -22,7 +22,7 @@ class ToolView: UIView {
     private let titleLabel = UILabel()
     private var buttons = Array<UIButton>()
     
-    private var data: Array<AudioSample>!
+    var samples: Array<AudioSample>!
     
     public var alignBottom = false {
         didSet { setNeedsLayout() }
@@ -105,7 +105,7 @@ class ToolView: UIView {
     
     // MARK: - public methods
     
-    func setData(_ icon: UIImage, _ title: String, _ data: [AudioSample]) {
+    func setData(_ icon: UIImage, _ title: String, _ samples: [AudioSample]) {
         iconImV.image = icon
         
         titleLabel.text = title
@@ -114,12 +114,12 @@ class ToolView: UIView {
             button.removeFromSuperview()
         }
         
-        self.data = data
+        self.samples = samples
         
-        for item in data {
+        for sample in samples {
             let button = UIButton(type: .system)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-            button.setTitle(item.name, for: .normal)
+            button.setTitle(sample.name, for: .normal)
             button.setTitleColor(.black, for: .normal)
             buttons.append(button)
             addSubview(button)
@@ -134,10 +134,15 @@ class ToolView: UIView {
         superview?.setNeedsLayout()
     }
     
+    func getTitle() -> String? {
+        return titleLabel.text
+    }
+    
     // MARK: - handlers
     
     @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
+            superview?.bringSubviewToFront(self)
             toggleOpen()
             delegate?.toggled(toolView: self)
         }
@@ -151,8 +156,8 @@ class ToolView: UIView {
     
     @objc func sampleTapped(_ sender: UIButton) {
         if let index = buttons.firstIndex(of: sender) {
-            let sample = data[index]
-            delegate?.sampleTapped(sample: sample)
+            let sample = samples[index]
+            delegate?.sampleTapped(self, sample)
         }
     }
 }
