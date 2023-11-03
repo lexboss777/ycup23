@@ -10,7 +10,7 @@ import UIKit
 
 protocol LayerCellDelegate: AnyObject {
     func playOrStop(cell: LayerCell)
-    func mute(cell: LayerCell)
+    func muteOrUnmute(cell: LayerCell)
     func delete(cell: LayerCell)
 }
 
@@ -23,6 +23,9 @@ class LayerCell: UITableViewCell {
     let playIcon = "play.fill"
     let pauseIcon = "pause.fill"
     
+    let mutedIcon = "speaker.slash.fill"
+    let unmutedIcon = "speaker.fill"
+    
     private let topPadding = 7.0
     private let rad = 4.0
     
@@ -34,10 +37,12 @@ class LayerCell: UITableViewCell {
     private var titleLabel = UILabel()
     
     private var deleteBtn = UIButton(type: .system)
+    
     private var muteBtn = UIButton(type: .system)
+    private var isMuted = false
     
     private var playBtn = UIButton(type: .system)
-    private var playing: Bool = false
+    private var isPlaying = false
     
     var delegate: LayerCellDelegate?
     
@@ -71,9 +76,9 @@ class LayerCell: UITableViewCell {
         configure(btn: deleteBtn, "xmark", UIColor(0xE4E4E4))
         
         containerView.addSubview(muteBtn)
-        configure(btn: muteBtn, "speaker.slash.fill", UIColor.white)
+        configure(btn: muteBtn, unmutedIcon, UIColor.white)
         muteBtn.addAction {
-            self.delegate?.mute(cell: self)
+            self.delegate?.muteOrUnmute(cell: self)
         }
         
         containerView.addSubview(playBtn)
@@ -84,8 +89,8 @@ class LayerCell: UITableViewCell {
             }
             
             delegate.playOrStop(cell: self)
-            self.playing.toggle()
-            self.setIsPlaying(self.playing)
+            self.isPlaying.toggle()
+            self.setIsPlaying(self.isPlaying)
         }
     }
     
@@ -134,7 +139,7 @@ class LayerCell: UITableViewCell {
     }
     
     func setIsPlaying(_ playing: Bool) {
-        self.playing = playing
+        self.isPlaying = playing
         self.playBtn.configuration?.image = getImage(playing ? pauseIcon : playIcon)
     }
 }

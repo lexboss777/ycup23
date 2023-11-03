@@ -63,7 +63,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         }
     }
     
-    func mute(cell: LayerCell) {
+    func muteOrUnmute(cell: LayerCell) {
         if let indexPath = layersTableView.indexPath(for: cell) {
             let layer = layers[indexPath.row]
             guard let player = layer.player else {
