@@ -60,7 +60,10 @@ class ToolView: UIView {
         
         addSubview(titleLabel)
         
-        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:))))
+        let longGr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longGr.minimumPressDuration = 0.3
+        addGestureRecognizer(longGr)
+        
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
     }
     
