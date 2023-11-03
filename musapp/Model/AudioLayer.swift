@@ -14,6 +14,7 @@ class AudioLayer {
     let toolName: String
     let sample: AudioSample
     var interval: Float = 1
+    var isMuted = false
     
     init(toolName: String, sample: AudioSample) {
         id = UUID()

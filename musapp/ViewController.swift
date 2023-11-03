@@ -45,7 +45,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     var volumeSlider: UISlider!
     
     var speedSlider: UISlider!
-    let maxSpeed: Float = 10
+    let maxSpeed: Float = 5
     let minSpeed: Float = 0
     
     let engine = AudioEngine()
@@ -148,6 +148,7 @@ class ViewController: UIViewController, ToolViewDelegate {
             player.completionHandler = {
                 self.playerCompletionHandler(layer)
             }
+            player.volume = layer.isMuted ? 0 : 1
             engineMixer.addInput(player)
             players.append(player)
             layer.player = player

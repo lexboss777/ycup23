@@ -26,7 +26,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         
         cell.setData("\(layer.toolName.capitalized) \(layer.sample.name)")
         cell.setIsPlaying(layer.id == playingLayerUUID)
-        cell.setIsMuted(layer.player?.volume == 0)
+        cell.setIsMuted(layer.isMuted)
         cell.delegate = self
         cell.setIsSelected(layer === selectedLayer)
         
@@ -92,14 +92,16 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
     func muteOrUnmute(cell: LayerCell) {
         if let indexPath = layersTableView.indexPath(for: cell) {
             let layer = layers[indexPath.row]
+            layer.isMuted.toggle()
+            
             guard let player = layer.player else {
                 return
             }
             
-            if player.volume == 0 {
-                player.volume = 1
-            } else {
+            if layer.isMuted {
                 player.volume = 0
+            } else {
+                player.volume = 1
             }
         }
     }
