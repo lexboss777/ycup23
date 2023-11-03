@@ -166,6 +166,9 @@ class ToolView: UIView {
     @objc func handleTap(_ gesture: UILongPressGestureRecognizer) {
         if !isOpen {
             delegate?.tapped(toolView: self)
+        } else {
+            toggleOpen()
+            delegate?.toggled(toolView: self)
         }
     }
     
