@@ -289,6 +289,11 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     func sampleTapped(_ toolView: ToolView, _ sample: AudioSample) {
+        
+        // close toolView when sample selected while it was open
+        toolView.toggleOpen()
+        toggled(toolView: toolView)
+        
         appendToLayers(toolName: toolView.getTitle(), sample: sample)
         updateLayers()
     }
