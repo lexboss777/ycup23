@@ -21,6 +21,7 @@ class ToolView: UIView {
     private let iconImV = UIImageView()
     private let titleLabel = UILabel()
     private var buttons = Array<UIButton>()
+    private var circleView = UIView()
     
     var samples: Array<AudioSample>!
     
@@ -45,12 +46,18 @@ class ToolView: UIView {
     }
     
     private func setup() {
-        layer.cornerRadius = 25
+        
+        backgroundColor = .clear
+        
+        circleView.backgroundColor = .white
         
         titleLabel.textColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         
-        addSubview(iconImV)
+        addSubview(circleView)
+        circleView.layer.masksToBounds = true
+        circleView.addSubview(iconImV)
+        
         addSubview(titleLabel)
         
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:))))
@@ -73,13 +80,14 @@ class ToolView: UIView {
             
             for button in buttons {
                 button.sizeToFit()
-                button.centerHorizontallyInView(self)
+                button.centerHorizontallyInView(circleView)
                 button.setTop(h)
                 h += button.frame.height + buttonsInterMargin
             }
             
             UIView.animate(withDuration: animDuration, animations: {
                 self.setHeight(h - buttonsInterMargin + buttonsBottomMargin)
+                self.circleView.setHeight(h - buttonsInterMargin + buttonsBottomMargin)
             })
             
         } else {
@@ -90,21 +98,24 @@ class ToolView: UIView {
             
             UIView.animate(withDuration: animDuration, animations: {
                 self.setSize(edgeSize, edgeSize)
+                self.circleView.setSize(edgeSize, edgeSize)
             })
             
             iconImV.sizeToFit()
-            iconImV.centerHorizontallyInView(self)
+            iconImV.centerHorizontallyInView(circleView)
             
             titleLabel.sizeToFit()
             titleLabel.centerHorizontallyInView(self)
             titleLabel.setTop(edgeSize + 9)
             
             if alignBottom {
-                iconImV.setTop(frame.height - iconImV.frame.height + 4)
+                iconImV.setTop(circleView.frame.height - iconImV.frame.height + 4)
             } else {
-                iconImV.centerInView(self)
+                iconImV.centerInView(circleView)
             }
         }
+        
+        circleView.layer.cornerRadius = circleView.frame.width / 2
     }
     
     // MARK: - public methods
@@ -126,14 +137,14 @@ class ToolView: UIView {
             button.setTitle(sample.name, for: .normal)
             button.setTitleColor(.black, for: .normal)
             buttons.append(button)
-            addSubview(button)
+            circleView.addSubview(button)
             button.addTarget(self, action: #selector(sampleTapped), for: .touchUpInside)
         }
     }
     
     func toggleOpen() {
         isOpen.toggle()
-        backgroundColor = isOpen ? .accent : .white
+        circleView.backgroundColor = isOpen ? .accent : .white
         titleLabel.isHidden = isOpen
         superview?.setNeedsLayout()
     }

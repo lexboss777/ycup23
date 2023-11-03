@@ -67,8 +67,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         let toolView = ToolView()
         toolView.delegate = self
         toolView.setData(icon, title, samples)
-        toolView.backgroundColor = .white
-        toolView.layer.masksToBounds = true
         view.addSubview(toolView)
         toolViews.append(toolView)
         
