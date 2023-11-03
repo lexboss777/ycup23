@@ -213,7 +213,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         playBtn.layer.cornerRadius = btnRad
         playBtn.configuration = configuration
         playBtn.addAction {
-            self.stopPlayLayer()
+            if self.playingLayerUUID != nil {
+                self.stopPlayLayer()
+                self.updateLayers()
+            }
             self.playMix()
         }
         view.addSubview(playBtn)
