@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "guitar.png",
+      "filename" : "melody@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "guitar@2x.png",
+      "filename" : "melody@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "guitar@3x.png",
+      "filename" : "melody@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

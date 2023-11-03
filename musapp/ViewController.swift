@@ -227,9 +227,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        guitarView = addTool(UIImage(named: "guitar")!, "мелодия", getAudioSamples("Guitar"))
-        guitarView.alignBottom = true
-        
+        guitarView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Guitar"))        
         drumsView = addTool(UIImage(named: "drums")!, "ударные", getAudioSamples("Percussion"))
         windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
         
