@@ -113,7 +113,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     private func playerCompletionHandler(_ player: AudioPlayer) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
-            player.play()
+            if !player.connections.indices.isEmpty {
+                player.play()
+            }
         }
     }
     
@@ -139,6 +141,19 @@ class ViewController: UIViewController, ToolViewDelegate {
         print(engine.connectionTreeDescription)
         
         players.forEach { $0.start() }
+    }
+    
+    private func stopMix() {
+        for layer in layers {
+            guard let player = layer.player else {
+                continue
+            }
+            
+            player.stop()
+            player.detach()
+            engine.output?.detach()
+            layer.player = nil
+        }
     }
     
     // MARK: - internal methods
@@ -217,7 +232,14 @@ class ViewController: UIViewController, ToolViewDelegate {
                 self.stopPlayLayer()
                 self.updateLayers()
             }
-            self.playMix()
+            self.isPlayingMix.toggle()
+            if self.isPlayingMix {
+                self.playBtn.configuration!.image = self.getImage("pause.fill")
+                self.playMix()
+            } else {
+                self.playBtn.configuration!.image = self.getImage("play.fill")
+                self.stopMix()
+            }
         }
         view.addSubview(playBtn)
     }
