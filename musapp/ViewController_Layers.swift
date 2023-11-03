@@ -50,8 +50,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         
         reloadPaths.append(indexPath)
         tableView.reloadRows(at: reloadPaths, with: .none)
-        
-        speedSlider.value = maxSpeed - selectedLayer!.interval
     }
     
     // MARK: - LayerCellDelegate

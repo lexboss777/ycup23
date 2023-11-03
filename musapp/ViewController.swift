@@ -239,10 +239,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
     }
     
-    internal func updateSlidersVisibility() {
-        let sliderHidden = !layersTableView.isHidden || selectedLayer == nil
-        speedSlider.isHidden = sliderHidden
-        volumeSlider.isHidden = sliderHidden
+    internal func updateSliders() {
+        let isSliderHidden = !layersTableView.isHidden || selectedLayer == nil
+        speedSlider.isHidden = isSliderHidden
+        volumeSlider.isHidden = isSliderHidden
+        
+        if !isSliderHidden {
+            speedSlider.value = maxSpeed - selectedLayer!.interval
+        }
     }
     
     // MARK: - overridden base members
