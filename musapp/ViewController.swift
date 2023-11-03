@@ -111,11 +111,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold));
     }
     
-    private func playerCompletionHandler(_ player: AudioPlayer) {
+    private func playerCompletionHandler(_ layer: AudioLayer) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
-            if !player.connections.indices.isEmpty {
-                player.play()
+            guard let player = layer.player else {
+                print("player seems to be detached")
+                return
             }
+            
+            player.play()
         }
     }
     
@@ -131,7 +134,7 @@ class ViewController: UIViewController, ToolViewDelegate {
             let audioFile = try! AVAudioFile(forReading: layer.sample.path)
             let player = AudioPlayer(file: audioFile, buffered: true)!
             player.completionHandler = {
-                self.playerCompletionHandler(player)
+                self.playerCompletionHandler(layer)
             }
             engineMixer.addInput(player)
             players.append(player)
@@ -151,7 +154,6 @@ class ViewController: UIViewController, ToolViewDelegate {
             
             player.stop()
             player.detach()
-            engine.output?.detach()
             layer.player = nil
         }
     }
