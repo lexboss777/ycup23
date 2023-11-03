@@ -120,14 +120,13 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         for layer in self.layers {
             let audioFile = try! AVAudioFile(forReading: layer.sample.path)
-            let player = AudioPlayer(file: audioFile, buffered: true)
-            engineMixer.addInput(player!)
-            players.append(player!)
+            let player = AudioPlayer(file: audioFile, buffered: true)!
+            player.isLooping = true
+            engineMixer.addInput(player)
+            players.append(player)
         }
         
         print(engine.connectionTreeDescription)
-        
-        players.forEach { $0.isLooping = true }
         
         players.forEach { $0.start() }
     }
