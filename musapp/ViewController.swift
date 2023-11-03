@@ -41,6 +41,8 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     var recordBtn: UIButton!
     
+    var micRecordBtn: UIButton!
+    
     var layers = Array<AudioLayer>()
     var layerCellH = 46.0
     var playingLayerUUID: UUID?
@@ -205,6 +207,18 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
     }
     
+    private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
+        let btn = UIButton(type: .system)
+        var configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = .white
+        configuration.baseForegroundColor = .black
+        configuration.image = getImage(icon, iconPointSize)
+        btn.layer.cornerRadius = 4.0
+        btn.configuration = configuration
+        view.addSubview(btn)
+        return btn
+    }
+    
     // MARK: - internal methods
     
     internal func updateLayers() {
@@ -314,28 +328,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersTableView.register(LayerCell.self, forCellReuseIdentifier: LayerCell.identifier)
         view.addSubview(layersTableView)
         
-        let btnRad = 4.0
-        
-        playBtn = UIButton(type: .system)
-        var configuration = UIButton.Configuration.filled()
-        configuration.baseBackgroundColor = .white
-        configuration.baseForegroundColor = .black
-        configuration.image = getImage("play.fill")
-        playBtn.layer.cornerRadius = btnRad
-        playBtn.configuration = configuration
+        playBtn = createButton("play.fill", 12)
         playBtn.addAction {
             self.playBtnClicked()
         }
-        view.addSubview(playBtn)
         
-        recordBtn = UIButton(type: .system)
-        configuration = UIButton.Configuration.filled()
-        configuration.baseBackgroundColor = .white
-        configuration.baseForegroundColor = .black
-        configuration.image = getImage("circle.fill", 8)
-        recordBtn.layer.cornerRadius = btnRad
-        recordBtn.configuration = configuration
-        view.addSubview(recordBtn)
+        recordBtn = createButton("circle.fill", 8)
+        
+        micRecordBtn = createButton("mic.fill", 12)
     }
     
     override func viewDidLayoutSubviews() {
@@ -378,6 +378,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         recordBtn.setSize(btnSize, btnSize)
         recordBtn.move(playBtn.frame.minX - btnMargin - recordBtn.frame.width, layersBtn.frame.minY)
+        
+        micRecordBtn.setSize(btnSize, btnSize)
+        micRecordBtn.move(recordBtn.frame.minX - btnMargin - micRecordBtn.frame.width, layersBtn.frame.minY)
         
         let spectrumH = 54.0
         
