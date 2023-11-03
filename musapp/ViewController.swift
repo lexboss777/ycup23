@@ -196,9 +196,8 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         playingLayerUUID = layer.id
         
-        try! engine.start()
-        
         engine.output = player
+        try! engine.start()
         
         try! player.load(url: layer.sample.path)
         
