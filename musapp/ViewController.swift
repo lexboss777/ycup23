@@ -228,6 +228,8 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersBtn.setTitle("Слои", for: .normal)
         layersBtn.addAction {
             self.layersTableView.isHidden.toggle()
+            self.speedSlider.isHidden = !self.layersTableView.isHidden
+            self.volumeSlider.isHidden = !self.layersTableView.isHidden
             self.view.setNeedsLayout()
         }
         view.addSubview(layersBtn)
@@ -242,11 +244,13 @@ class ViewController: UIViewController, ToolViewDelegate {
         view.layer.addSublayer(gradientLayer)
         
         volumeSlider = UISlider()
+        volumeSlider.isHidden = true
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
         volumeSlider.tintColor = .accent
         view.addSubview(volumeSlider)
         
         speedSlider = UISlider()
+        speedSlider.isHidden = true
         speedSlider.minimumValue = minSpeed
         speedSlider.maximumValue = maxSpeed
         speedSlider.tintColor = .accent
