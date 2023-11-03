@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import AudioKit
 
-struct AudioLayer {
+class AudioLayer {
+    var player: AudioPlayer?
     let id: UUID
     let toolName: String
     let sample: AudioSample

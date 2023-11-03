@@ -10,6 +10,7 @@ import UIKit
 
 protocol LayerCellDelegate: AnyObject {
     func playOrStop(cell: LayerCell)
+    func mute(cell: LayerCell)
     func delete(cell: LayerCell)
 }
 
@@ -71,8 +72,12 @@ class LayerCell: UITableViewCell {
         
         containerView.addSubview(muteBtn)
         configure(btn: muteBtn, "speaker.slash.fill", UIColor.white)
+        muteBtn.addAction {
+            self.delegate?.mute(cell: self)
+        }
         
         containerView.addSubview(playBtn)
+        configure(btn: playBtn, playIcon, UIColor.white)
         playBtn.addAction {
             guard let delegate = self.delegate else {
                 return
@@ -82,7 +87,6 @@ class LayerCell: UITableViewCell {
             self.playing.toggle()
             self.setIsPlaying(self.playing)
         }
-        configure(btn: playBtn, playIcon, UIColor.white)
     }
     
     // MARK: - private methods

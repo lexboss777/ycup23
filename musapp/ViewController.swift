@@ -110,6 +110,12 @@ class ViewController: UIViewController, ToolViewDelegate {
         return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold));
     }
     
+    private func playerCompletionHandler(_ player: AudioPlayer) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+            player.play()
+        }
+    }
+    
     private func playMix() {
         let engineMixer = Mixer()
         
@@ -122,12 +128,11 @@ class ViewController: UIViewController, ToolViewDelegate {
             let audioFile = try! AVAudioFile(forReading: layer.sample.path)
             let player = AudioPlayer(file: audioFile, buffered: true)!
             player.completionHandler = {
-                DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
-                    player.play()
-                }
+                self.playerCompletionHandler(player)
             }
             engineMixer.addInput(player)
             players.append(player)
+            layer.player = player
         }
         
         print(engine.connectionTreeDescription)

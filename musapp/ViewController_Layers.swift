@@ -62,4 +62,19 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             updateLayers()
         }
     }
+    
+    func mute(cell: LayerCell) {
+        if let indexPath = layersTableView.indexPath(for: cell) {
+            let layer = layers[indexPath.row]
+            guard let player = layer.player else {
+                return
+            }
+            
+            if player.volume == 0 {
+                player.volume = 1
+            } else {
+                player.volume = 0
+            }
+        }
+    }
 }
