@@ -149,14 +149,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         players.forEach { $0.start() }
     }
     
-    private func stopMixIfPlaying() {
-        if isPlayingMix {
-            isPlayingMix = false
-            stopMix()
-            updatePlayMixButton()
-        }
-    }
-    
     private func stopMix() {
         for layer in layers {
             guard let player = layer.player else {
@@ -202,6 +194,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         try! player.load(url: layer.sample.path)
         
         player.play()
+    }
+    
+    internal func stopMixIfPlaying() {
+        if isPlayingMix {
+            isPlayingMix = false
+            stopMix()
+            updatePlayMixButton()
+        }
     }
     
     // MARK: - overridden base members

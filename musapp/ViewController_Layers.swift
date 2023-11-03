@@ -50,6 +50,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             layer.player?.stop()
             layers.remove(at: row)
             updateLayers()
+            
+            if layers.isEmpty {
+                stopMixIfPlaying()
+            }
         }
     }
     
