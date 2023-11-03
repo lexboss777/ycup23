@@ -302,7 +302,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         toolView.toggleOpen()
         toggled(toolView: toolView)
         
-        appendToLayers(toolName: toolView.getTitle(), sample: sample)
+        _ = appendToLayers(toolName: toolView.getTitle(), sample: sample)
         updateLayers()
     }
 }
