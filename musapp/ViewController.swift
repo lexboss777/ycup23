@@ -36,6 +36,8 @@ class ViewController: UIViewController, ToolViewDelegate {
     var playBtn: UIButton!
     var isPlayingMix = false
     
+    var recordBtn: UIButton!
+    
     var layers = Array<AudioLayer>()
     var layerCellH = 46.0
     var playingLayerUUID: UUID?
@@ -119,8 +121,8 @@ class ViewController: UIViewController, ToolViewDelegate {
         return layer
     }
     
-    private func getImage(_ name: String) -> UIImage? {
-        return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold));
+    private func getImage(_ name: String, _ ps: CGFloat = 12) -> UIImage? {
+        return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: ps, weight: .semibold));
     }
     
     private func playerCompletionHandler(_ layer: AudioLayer) {
@@ -184,6 +186,26 @@ class ViewController: UIViewController, ToolViewDelegate {
         let sliderHidden = !layersTableView.isHidden || selectedLayer == nil
         speedSlider.isHidden = sliderHidden
         volumeSlider.isHidden = sliderHidden
+    }
+    
+    private func playBtnClicked() {
+        if playingLayerUUID != nil {
+            stopPlayLayer()
+            updateLayers()
+        }
+        
+        if !isPlayingMix && layers.isEmpty {
+            print("nothing to play")
+            return
+        }
+        
+        isPlayingMix.toggle()
+        updatePlayMixButton()
+        if isPlayingMix {
+            playMix()
+        } else {
+            stopMix()
+        }
     }
     
     // MARK: - internal methods
@@ -286,25 +308,18 @@ class ViewController: UIViewController, ToolViewDelegate {
         playBtn.layer.cornerRadius = btnRad
         playBtn.configuration = configuration
         playBtn.addAction {
-            if self.playingLayerUUID != nil {
-                self.stopPlayLayer()
-                self.updateLayers()
-            }
-            
-            if !self.isPlayingMix && self.layers.isEmpty {
-                print("nothing to play")
-                return
-            }
-            
-            self.isPlayingMix.toggle()
-            self.updatePlayMixButton()
-            if self.isPlayingMix {
-                self.playMix()
-            } else {
-                self.stopMix()
-            }
+            self.playBtnClicked()
         }
         view.addSubview(playBtn)
+        
+        recordBtn = UIButton(type: .system)
+        configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = .white
+        configuration.baseForegroundColor = .black
+        configuration.image = getImage("circle.fill", 8)
+        recordBtn.layer.cornerRadius = btnRad
+        recordBtn.configuration = configuration
+        view.addSubview(recordBtn)
     }
     
     override func viewDidLayoutSubviews() {
@@ -339,8 +354,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersBtn.sizeToFit()
         layersBtn.move(margin, view.frame.height - layersBtn.frame.height - bottomMargin)
         
-        playBtn.setSize(34, 34)
+        let btnSize = 34.0
+        let btnMargin = 5.0
+        
+        playBtn.setSize(btnSize, btnSize)
         playBtn.move(view.frame.width - playBtn.frame.width - margin, layersBtn.frame.minY)
+        
+        recordBtn.setSize(btnSize, btnSize)
+        recordBtn.move(playBtn.frame.minX - btnMargin - recordBtn.frame.width, layersBtn.frame.minY)
         
         let spectrumH = 54.0
         
