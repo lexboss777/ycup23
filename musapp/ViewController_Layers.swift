@@ -47,6 +47,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             if layer.id == playingLayerUUID {
                 stopPlay()
             }
+            layer.player?.detach()
             layers.remove(at: row)
             updateLayers()
         }
