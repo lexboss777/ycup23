@@ -20,7 +20,7 @@ class ViewController: UIViewController, ToolViewDelegate {
 
     // MARK: - properties
     
-    var guitarView: ToolView!
+    var melodyView: ToolView!
     var drumsView: ToolView!
     var windsView: ToolView!
     
@@ -124,7 +124,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func playerCompletionHandler(_ layer: AudioLayer) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + Double(layer.interval)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(layer.interval)) {
             guard let player = layer.player else {
                 print("player seems to be detached")
                 return
@@ -227,7 +227,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        guitarView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Guitar"))        
+        melodyView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Guitar"))        
         drumsView = addTool(UIImage(named: "drums")!, "ударные", getAudioSamples("Percussion"))
         windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
         
@@ -364,6 +364,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersTableView.setHeight(min(layersTableViewMaxH, layersTableViewContentH))
         layersTableView.setLeft(margin)
         layersTableView.setTop(layersBtn.frame.minY - spectrumH - layersTableView.frame.height)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        melodyView.animateOpenAndClose()
     }
     
     // MARK: - ToolViewDelegate

@@ -156,6 +156,16 @@ class ToolView: UIView {
         return titleLabel.text
     }
     
+    func animateOpenAndClose() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.toggleOpen()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.toggleOpen()
+        }
+    }
+    
     // MARK: - handlers
     
     @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
