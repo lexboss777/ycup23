@@ -179,6 +179,12 @@ class ViewController: UIViewController, ToolViewDelegate {
         self.playBtn.configuration!.image = self.getImage(self.isPlayingMix ? pauseIcon : playIcon)
     }
     
+    private func updateSlidersVisibility() {
+        let sliderHidden = !layersTableView.isHidden || selectedLayer == nil
+        speedSlider.isHidden = sliderHidden
+        volumeSlider.isHidden = sliderHidden
+    }
+    
     // MARK: - internal methods
     
     internal func updateLayers() {
@@ -230,11 +236,8 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersBtn.setTitle("Слои", for: .normal)
         layersBtn.addAction {
             self.layersTableView.isHidden.toggle()
-            
-            let sliderHidden = !self.layersTableView.isHidden || self.selectedLayer == nil
-            self.speedSlider.isHidden = sliderHidden
-            self.volumeSlider.isHidden = sliderHidden
             self.view.setNeedsLayout()
+            self.updateSlidersVisibility()
         }
         view.addSubview(layersBtn)
         
