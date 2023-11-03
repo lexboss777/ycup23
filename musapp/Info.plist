@@ -6,5 +6,7 @@
 	<array>
 		<string>audio</string>
 	</array>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Need microphone access for recording audio</string>
 </dict>
 </plist>
