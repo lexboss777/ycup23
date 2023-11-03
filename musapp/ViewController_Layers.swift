@@ -38,6 +38,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         return layerCellH
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedLayer = layers[indexPath.row]
+        
+        speedSlider.value = maxSpeed - selectedLayer!.interval
+    }
+    
     // MARK: - LayerCellDelegate
     
     func delete(cell: LayerCell) {

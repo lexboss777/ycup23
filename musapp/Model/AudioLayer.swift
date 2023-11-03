@@ -13,6 +13,7 @@ class AudioLayer {
     let id: UUID
     let toolName: String
     let sample: AudioSample
+    var interval: Float = 1
     
     init(toolName: String, sample: AudioSample) {
         id = UUID()

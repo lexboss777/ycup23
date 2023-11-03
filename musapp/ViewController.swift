@@ -29,6 +29,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     var layersBtn: ToggleButton!
     var layersTableView: UITableView!
+    var selectedLayer: AudioLayer?
     
     var playBtn: UIButton!
     var isPlayingMix = false
@@ -40,7 +41,10 @@ class ViewController: UIViewController, ToolViewDelegate {
     var gradientLayer: CAGradientLayer!
     
     var volumeSlider: UISlider!
+    
     var speedSlider: UISlider!
+    let maxSpeed: Float = 10
+    let minSpeed: Float = 0
     
     let engine = AudioEngine()
     var player = AudioPlayer()
@@ -118,7 +122,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func playerCompletionHandler(_ layer: AudioLayer) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + Double(layer.interval)) {
             guard let player = layer.player else {
                 print("player seems to be detached")
                 return
@@ -243,7 +247,15 @@ class ViewController: UIViewController, ToolViewDelegate {
         view.addSubview(volumeSlider)
         
         speedSlider = UISlider()
+        speedSlider.minimumValue = minSpeed
+        speedSlider.maximumValue = maxSpeed
         speedSlider.tintColor = .accent
+        speedSlider.addAction {
+            if self.selectedLayer != nil {
+                self.selectedLayer!.interval = self.maxSpeed - self.speedSlider.value
+                print(self.selectedLayer!.interval)
+            }
+        }
         view.addSubview(speedSlider)
         
         layersTableView = UITableView()
