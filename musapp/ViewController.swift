@@ -14,6 +14,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     // MARK: - declaration
     
     let margin = 15.0
+    
+    let playIcon = "play.fill"
+    let pauseIcon = "pause.fill"
 
     // MARK: - properties
     
@@ -146,6 +149,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         players.forEach { $0.start() }
     }
     
+    private func stopMixIfPlaying() {
+        if isPlayingMix {
+            isPlayingMix = false
+            stopMix()
+            updatePlayMixButton()
+        }
+    }
+    
     private func stopMix() {
         for layer in layers {
             guard let player = layer.player else {
@@ -163,6 +174,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         print("stopMix end")
     }
     
+    private func updatePlayMixButton() {
+        self.playBtn.configuration!.image = self.getImage(self.isPlayingMix ? pauseIcon : playIcon)
+    }
+    
     // MARK: - internal methods
     
     internal func updateLayers() {
@@ -177,6 +192,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     internal func play(layer: AudioLayer) {
         stopPlayLayer()
+        stopMixIfPlaying()
         
         playingLayerUUID = layer.id
         
@@ -248,11 +264,10 @@ class ViewController: UIViewController, ToolViewDelegate {
             }
             
             self.isPlayingMix.toggle()
+            self.updatePlayMixButton()
             if self.isPlayingMix {
-                self.playBtn.configuration!.image = self.getImage("pause.fill")
                 self.playMix()
             } else {
-                self.playBtn.configuration!.image = self.getImage("play.fill")
                 self.stopMix()
             }
         }
