@@ -69,7 +69,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             
             if selectedLayer === layer {
                 selectedLayer = nil
-                updateSlidersVisibility()
             }
             
             layers.remove(at: row)

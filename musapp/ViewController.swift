@@ -30,7 +30,11 @@ class ViewController: UIViewController, ToolViewDelegate {
     var layersBtn: ToggleButton!
     var layersTableView: UITableView!
     
-    var selectedLayer: AudioLayer?
+    var selectedLayer: AudioLayer? {
+        didSet {
+            updateSlidersVisibility()
+        }
+    }
     
     var playBtn: UIButton!
     var isPlayingMix = false
@@ -417,7 +421,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         selectedLayer = layer
         play(layer: layer)
         updateLayers()
-        updateSlidersVisibility()
     }
     
     func sampleTapped(_ toolView: ToolView, _ sample: AudioSample) {
@@ -428,7 +431,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         let layer = appendToLayers(toolName: toolView.getTitle(), sample: sample)
         selectedLayer = layer
-        updateSlidersVisibility()
         updateLayers()
     }
 }
