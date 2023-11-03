@@ -232,6 +232,12 @@ class ViewController: UIViewController, ToolViewDelegate {
                 self.stopPlayLayer()
                 self.updateLayers()
             }
+            
+            if !self.isPlayingMix && self.layers.isEmpty {
+                print("nothing to play")
+                return
+            }
+            
             self.isPlayingMix.toggle()
             if self.isPlayingMix {
                 self.playBtn.configuration!.image = self.getImage("pause.fill")
