@@ -47,6 +47,14 @@ class ViewController: UIViewController, ToolViewDelegate {
             self.stopPlay()
             self.updateLayers()
         }
+        
+        do {
+            try AVAudioSession.sharedInstance().setPreferredIOBufferDuration(Settings.bufferLength.duration)
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.defaultToSpeaker, .mixWithOthers, .allowBluetoothA2DP])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch let err {
+            print(err)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -102,6 +110,28 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     private func getImage(_ name: String) -> UIImage? {
         return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12, weight: .semibold));
+    }
+    
+    private func playMix() {
+        let engineMixer = Mixer()
+        
+        engine.output = engineMixer
+        try! engine.start()
+        
+        var players:[AudioPlayer] = []
+        
+        for layer in self.layers {
+            let audioFile = try! AVAudioFile(forReading: layer.sample.path)
+            let player = AudioPlayer(file: audioFile, buffered: true)
+            engineMixer.addInput(player!)
+            players.append(player!)
+        }
+        
+        print(engine.connectionTreeDescription)
+        
+        players.forEach { $0.isLooping = true }
+        
+        players.forEach { $0.start() }
     }
     
     // MARK: - internal methods
@@ -175,6 +205,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         configuration.image = getImage("play.fill")
         playBtn.layer.cornerRadius = btnRad
         playBtn.configuration = configuration
+        playBtn.addAction {
+            self.playMix()
+        }
         view.addSubview(playBtn)
     }
     
