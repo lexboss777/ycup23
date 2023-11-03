@@ -414,8 +414,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
         
         let layer = appendToLayers(toolName: toolView.getTitle(), sample: sample)
+        selectedLayer = layer
         play(layer: layer)
         updateLayers()
+        updateSlidersVisibility()
     }
     
     func sampleTapped(_ toolView: ToolView, _ sample: AudioSample) {
@@ -424,7 +426,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         toolView.toggleOpen()
         toggled(toolView: toolView)
         
-        _ = appendToLayers(toolName: toolView.getTitle(), sample: sample)
+        let layer = appendToLayers(toolName: toolView.getTitle(), sample: sample)
+        selectedLayer = layer
+        updateSlidersVisibility()
         updateLayers()
     }
 }
