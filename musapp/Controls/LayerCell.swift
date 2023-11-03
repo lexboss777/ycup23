@@ -78,7 +78,13 @@ class LayerCell: UITableViewCell {
         containerView.addSubview(muteBtn)
         configure(btn: muteBtn, unmutedIcon, UIColor.white)
         muteBtn.addAction {
-            self.delegate?.muteOrUnmute(cell: self)
+            guard let delegate = self.delegate else {
+                return
+            }
+            
+            delegate.muteOrUnmute(cell: self)
+            self.isMuted.toggle()
+            self.setIsMuted(self.isMuted)
         }
         
         containerView.addSubview(playBtn)
@@ -141,5 +147,10 @@ class LayerCell: UITableViewCell {
     func setIsPlaying(_ playing: Bool) {
         self.isPlaying = playing
         self.playBtn.configuration?.image = getImage(playing ? pauseIcon : playIcon)
+    }
+    
+    func setIsMuted(_ muted: Bool) {
+        self.isMuted = muted
+        self.muteBtn.configuration?.image = getImage(isMuted ? mutedIcon : unmutedIcon)
     }
 }

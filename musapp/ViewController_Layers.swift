@@ -26,6 +26,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         
         cell.setData("\(layer.toolName.capitalized) \(layer.sample.name)")
         cell.setIsPlaying(layer.id == playingLayerUUID)
+        cell.setIsMuted(layer.player?.volume == 0)
         cell.delegate = self
         
         return cell
