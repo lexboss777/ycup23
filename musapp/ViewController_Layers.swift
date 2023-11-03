@@ -68,6 +68,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             layer.player?.stop()
             layer.player = nil
             
+            if selectedLayer === layer {
+                selectedLayer = nil
+                selectedPath = nil
+                updateSlidersVisibility()
+            }
+            
             layers.remove(at: row)
             updateLayers()
             

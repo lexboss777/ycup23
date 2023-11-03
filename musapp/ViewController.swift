@@ -182,12 +182,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         self.playBtn.configuration!.image = self.getImage(self.isPlayingMix ? pauseIcon : playIcon)
     }
     
-    private func updateSlidersVisibility() {
-        let sliderHidden = !layersTableView.isHidden || selectedLayer == nil
-        speedSlider.isHidden = sliderHidden
-        volumeSlider.isHidden = sliderHidden
-    }
-    
     private func playBtnClicked() {
         if playingLayerUUID != nil {
             stopPlayLayer()
@@ -240,6 +234,12 @@ class ViewController: UIViewController, ToolViewDelegate {
             stopMix()
             updatePlayMixButton()
         }
+    }
+    
+    internal func updateSlidersVisibility() {
+        let sliderHidden = !layersTableView.isHidden || selectedLayer == nil
+        speedSlider.isHidden = sliderHidden
+        volumeSlider.isHidden = sliderHidden
     }
     
     // MARK: - overridden base members
