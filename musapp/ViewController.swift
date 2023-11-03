@@ -230,8 +230,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersBtn.setTitle("Слои", for: .normal)
         layersBtn.addAction {
             self.layersTableView.isHidden.toggle()
-            self.speedSlider.isHidden = !self.layersTableView.isHidden
-            self.volumeSlider.isHidden = !self.layersTableView.isHidden
+            
+            let sliderHidden = !self.layersTableView.isHidden || self.selectedLayer == nil
+            self.speedSlider.isHidden = sliderHidden
+            self.volumeSlider.isHidden = sliderHidden
             self.view.setNeedsLayout()
         }
         view.addSubview(layersBtn)
