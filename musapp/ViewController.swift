@@ -20,27 +20,27 @@ class ViewController: UIViewController, ToolViewDelegate {
 
     // MARK: - properties
     
-    private var guitarView: ToolView!
-    private var drumsView: ToolView!
-    private var windsView: ToolView!
+    var guitarView: ToolView!
+    var drumsView: ToolView!
+    var windsView: ToolView!
     
-    private var toolViews: [ToolView]
-    private var lastOpenedTool: ToolView?
+    var toolViews: [ToolView]
+    var lastOpenedTool: ToolView?
     
-    private var layersBtn: ToggleButton!
-    internal var layersTableView: UITableView!
+    var layersBtn: ToggleButton!
+    var layersTableView: UITableView!
     
-    private var playBtn: UIButton!
-    private var isPlayingMix = false
+    var playBtn: UIButton!
+    var isPlayingMix = false
     
-    internal var layers = Array<AudioLayer>()
-    internal var layerCellH = 46.0
-    internal var playingLayerUUID: UUID?
+    var layers = Array<AudioLayer>()
+    var layerCellH = 46.0
+    var playingLayerUUID: UUID?
     
-    private var gradientLayer: CAGradientLayer!
+    var gradientLayer: CAGradientLayer!
     
-    private let engine = AudioEngine()
-    private var player = AudioPlayer()
+    let engine = AudioEngine()
+    var player = AudioPlayer()
     
     // MARK: - init
 
