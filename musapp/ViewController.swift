@@ -246,6 +246,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         if !isSliderHidden {
             speedSlider.value = maxSpeed - selectedLayer!.interval
+            volumeSlider.value = selectedLayer!.volume
         }
     }
     
@@ -282,6 +283,13 @@ class ViewController: UIViewController, ToolViewDelegate {
         volumeSlider.isHidden = true
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
         volumeSlider.tintColor = .accent
+        volumeSlider.addAction {
+            guard let layer = self.selectedLayer else {
+                return
+            }
+            
+            layer.volume = self.volumeSlider.value
+        }
         view.addSubview(volumeSlider)
         
         speedSlider = UISlider()
@@ -290,10 +298,11 @@ class ViewController: UIViewController, ToolViewDelegate {
         speedSlider.maximumValue = maxSpeed
         speedSlider.tintColor = .accent
         speedSlider.addAction {
-            if self.selectedLayer != nil {
-                self.selectedLayer!.interval = self.maxSpeed - self.speedSlider.value
-                print(self.selectedLayer!.interval)
+            guard let layer = self.selectedLayer else {
+                return
             }
+            
+            layer.interval = self.maxSpeed - self.speedSlider.value
         }
         view.addSubview(speedSlider)
         

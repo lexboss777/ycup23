@@ -14,7 +14,15 @@ class AudioLayer {
     let toolName: String
     let sample: AudioSample
     var interval: Float = 1
-    var volume: Float = 1
+    var volume: Float = 1 {
+        didSet {
+            guard let player = player else {
+                return
+            }
+            
+            player.volume = volume
+        }
+    }
     var isMuted = false
     
     init(toolName: String, sample: AudioSample) {
