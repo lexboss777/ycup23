@@ -28,6 +28,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         cell.setIsPlaying(layer.id == playingLayerUUID)
         cell.setIsMuted(layer.player?.volume == 0)
         cell.delegate = self
+        cell.setIsSelected(layer === selectedLayer)
         
         return cell
     }
@@ -39,7 +40,17 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var reloadPaths: [IndexPath] = []
+        
+        if selectedPath != nil {
+            reloadPaths.append(selectedPath!)
+        }
+        
         selectedLayer = layers[indexPath.row]
+        selectedPath = indexPath
+        
+        reloadPaths.append(indexPath)
+        tableView.reloadRows(at: reloadPaths, with: .none)
         
         speedSlider.value = maxSpeed - selectedLayer!.interval
     }

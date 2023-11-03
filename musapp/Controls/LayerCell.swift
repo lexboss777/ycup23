@@ -76,7 +76,7 @@ class LayerCell: UITableViewCell {
         configure(btn: deleteBtn, "xmark", UIColor(0xE4E4E4))
         
         containerView.addSubview(muteBtn)
-        configure(btn: muteBtn, unmutedIcon, UIColor.white)
+        configure(btn: muteBtn, unmutedIcon, UIColor.clear)
         muteBtn.addAction {
             guard let delegate = self.delegate else {
                 return
@@ -88,7 +88,7 @@ class LayerCell: UITableViewCell {
         }
         
         containerView.addSubview(playBtn)
-        configure(btn: playBtn, playIcon, UIColor.white)
+        configure(btn: playBtn, playIcon, UIColor.clear)
         playBtn.addAction {
             guard let delegate = self.delegate else {
                 return
@@ -152,5 +152,13 @@ class LayerCell: UITableViewCell {
     func setIsMuted(_ muted: Bool) {
         self.isMuted = muted
         self.muteBtn.configuration?.image = getImage(isMuted ? mutedIcon : unmutedIcon)
+    }
+    
+    func setIsSelected(_ selected: Bool) {
+        if selected {
+            containerView.backgroundColor = .accent
+        } else {
+            containerView.backgroundColor = .white
+        }
     }
 }

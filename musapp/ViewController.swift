@@ -29,7 +29,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     var layersBtn: ToggleButton!
     var layersTableView: UITableView!
+    
     var selectedLayer: AudioLayer?
+    var selectedPath: IndexPath?
     
     var playBtn: UIButton!
     var isPlayingMix = false
