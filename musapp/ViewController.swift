@@ -39,6 +39,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     var gradientLayer: CAGradientLayer!
     
+    var volumeSlider: UISlider!
+    var speedSlider: UISlider!
+    
     let engine = AudioEngine()
     var player = AudioPlayer()
     
@@ -234,6 +237,15 @@ class ViewController: UIViewController, ToolViewDelegate {
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         view.layer.addSublayer(gradientLayer)
         
+        volumeSlider = UISlider()
+        volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
+        volumeSlider.tintColor = .accent
+        view.addSubview(volumeSlider)
+        
+        speedSlider = UISlider()
+        speedSlider.tintColor = .accent
+        view.addSubview(speedSlider)
+        
         layersTableView = UITableView()
         layersTableView.backgroundColor = .clear
         layersTableView.isHidden = true
@@ -315,6 +327,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         let gradientY = toolBottom + gradientAdditionalTopMargin
         let gradientH = layersBtn.frame.minY - spectrumH - gradientY
         gradientLayer.frame = CGRect(x: margin, y: gradientY, width: gradientW, height: gradientH)
+        
+        volumeSlider.sizeToFit()
+        volumeSlider.setHeight(gradientLayer.frame.height - margin * 2)
+        volumeSlider.move(margin, gradientY)
+        
+        speedSlider.sizeToFit()
+        speedSlider.setWidth(gradientLayer.frame.width - margin)
+        speedSlider.move(margin * 2, gradientLayer.frame.maxY - speedSlider.frame.height)
         
         let layersTableViewContentH = layerCellH * CGFloat(layers.count)
         let layersTableViewMaxH = gradientH
