@@ -32,7 +32,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     var selectedLayer: AudioLayer? {
         didSet {
-            updateSlidersVisibility()
+            updateSliders()
         }
     }
     
@@ -153,7 +153,7 @@ class ViewController: UIViewController, ToolViewDelegate {
             player.completionHandler = {
                 self.playerCompletionHandler(layer)
             }
-            player.volume = layer.isMuted ? 0 : 1
+            player.volume = layer.isMuted ? 0 : layer.volume
             engineMixer.addInput(player)
             players.append(player)
             layer.player = player
@@ -265,7 +265,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersBtn.addAction {
             self.layersTableView.isHidden.toggle()
             self.view.setNeedsLayout()
-            self.updateSlidersVisibility()
+            self.updateSliders()
         }
         view.addSubview(layersBtn)
         
