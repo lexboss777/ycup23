@@ -153,9 +153,14 @@ class ViewController: UIViewController, ToolViewDelegate {
             }
             
             player.stop()
-            player.detach()
             layer.player = nil
         }
+        
+        engine.stop()
+        engine.input?.detach()
+        
+        print(engine.connectionTreeDescription)
+        print("stopMix end")
     }
     
     // MARK: - internal methods
@@ -175,8 +180,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         playingLayerUUID = layer.id
         
-        engine.output = player
         try! engine.start()
+        
+        engine.output = player
+        
         try! player.load(url: layer.sample.path)
         
         player.play()
