@@ -28,6 +28,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     internal var layersTableView: UITableView!
     
     private var playBtn: UIButton!
+    private var isPlayingMix = false
     
     internal var layers = Array<AudioLayer>()
     internal var layerCellH = 46.0
@@ -44,7 +45,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         toolViews = []
         super.init(nibName: nil, bundle: nil)
         player.completionHandler = {
-            self.stopPlay()
+            self.stopPlayLayer()
             self.updateLayers()
         }
         
@@ -147,13 +148,13 @@ class ViewController: UIViewController, ToolViewDelegate {
         view.setNeedsLayout()
     }
     
-    internal func stopPlay() {
+    internal func stopPlayLayer() {
         playingLayerUUID = nil
         player.stop()
     }
     
     internal func play(layer: AudioLayer) {
-        stopPlay()
+        stopPlayLayer()
         
         playingLayerUUID = layer.id
         
@@ -212,6 +213,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         playBtn.layer.cornerRadius = btnRad
         playBtn.configuration = configuration
         playBtn.addAction {
+            self.stopPlayLayer()
             self.playMix()
         }
         view.addSubview(playBtn)

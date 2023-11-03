@@ -45,7 +45,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             let row = indexPath.row
             let layer = layers[row]
             if layer.id == playingLayerUUID {
-                stopPlay()
+                stopPlayLayer()
             }
             layer.player?.detach()
             layers.remove(at: row)
@@ -57,7 +57,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
         if let indexPath = layersTableView.indexPath(for: cell) {
             let layer = layers[indexPath.row]
             if layer.id == playingLayerUUID {
-                stopPlay()
+                stopPlayLayer()
             } else {
                 play(layer: layer)
             }
