@@ -121,7 +121,11 @@ class ViewController: UIViewController, ToolViewDelegate {
         for layer in self.layers {
             let audioFile = try! AVAudioFile(forReading: layer.sample.path)
             let player = AudioPlayer(file: audioFile, buffered: true)!
-            player.isLooping = true
+            player.completionHandler = {
+                DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+                    player.play()
+                }
+            }
             engineMixer.addInput(player)
             players.append(player)
         }
