@@ -42,12 +42,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var reloadPaths: [IndexPath] = []
         
-        if selectedPath != nil {
-            reloadPaths.append(selectedPath!)
+        if selectedLayer != nil {
+            reloadPaths.append(IndexPath(row: layers.firstIndex{$0 === selectedLayer}!, section: 0))
         }
         
         selectedLayer = layers[indexPath.row]
-        selectedPath = indexPath
         
         reloadPaths.append(indexPath)
         tableView.reloadRows(at: reloadPaths, with: .none)
@@ -70,7 +69,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             
             if selectedLayer === layer {
                 selectedLayer = nil
-                selectedPath = nil
                 updateSlidersVisibility()
             }
             
