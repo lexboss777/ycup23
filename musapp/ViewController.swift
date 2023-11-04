@@ -42,6 +42,8 @@ class ViewController: UIViewController, ToolViewDelegate {
     var recordBtn: UIButton!
     
     var micRecordBtn: UIButton!
+    var isMicRecording = false
+    var micRecorder = AudioRecorder()
     
     var layers = Array<AudioLayer>()
     var layerCellH = 46.0
@@ -75,6 +77,8 @@ class ViewController: UIViewController, ToolViewDelegate {
         } catch let err {
             print(err)
         }
+        
+        micRecorder.clearFiles()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -207,6 +211,22 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
     }
     
+    private func micRecordClicked() {
+        isMicRecording.toggle()
+        
+        if isMicRecording {
+            micRecorder.startRecording()
+        } else {
+            guard let url = micRecorder.stopRecording() else {
+                return
+            }
+            
+            let sample = AudioSample(path: url, name: "temp")
+            selectedLayer = appendToLayers(toolName: "микрофон", sample: sample)
+            updateLayers()
+        }
+    }
+    
     private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
         let btn = UIButton(type: .system)
         var configuration = UIButton.Configuration.filled()
@@ -336,6 +356,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         recordBtn = createButton("circle.fill", 8)
         
         micRecordBtn = createButton("mic.fill", 12)
+        micRecordBtn.addAction {
+            self.micRecordClicked()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -412,7 +435,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     // MARK: - ToolViewDelegate
 
-    // called when toolView changed it's state: opened or closed
+    /// called when toolView changed it's state: opened or closed
     
     func toggled(toolView: ToolView) {
         
@@ -441,7 +464,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     func sampleTapped(_ toolView: ToolView, _ sample: AudioSample) {
         
-        // close toolView when sample selected while it was open
+        /// close toolView when sample selected while it was open
         toolView.toggleOpen()
         toggled(toolView: toolView)
         
