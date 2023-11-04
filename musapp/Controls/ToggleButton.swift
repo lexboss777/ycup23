@@ -21,9 +21,6 @@ class ToggleButton: UIButton {
     }
     
     private func setupButton() {
-        titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        setTitleColor(.black, for: .normal)
-        backgroundColor = .white
         layer.cornerRadius = 8
         layer.masksToBounds = true
         
@@ -53,5 +50,9 @@ class ToggleButton: UIButton {
             configuration?.image = getImage("chevron.up")
             configuration?.baseBackgroundColor = .white
         }
+    }
+    
+    public func setTitle(_ title: String) {
+        configuration?.attributedTitle = AttributedString(title, attributes: AttributeContainer([NSAttributedString.Key.font : YSText.regular(14)]))
     }
 }

@@ -9,10 +9,9 @@ import Foundation
 import UIKit
 
 struct YSText {
-    static let baseName = "YSText"
+    static let baseName = "YandexSansText"
 
     static func regular(_ size: CGFloat) -> UIFont {
-        UIFont.systemFont(ofSize: size)
-        //return UIFont(name: "\(baseName)-Regular", size: size)!
+        return UIFont(name: "\(baseName)-Regular", size: size)!
     }
 }

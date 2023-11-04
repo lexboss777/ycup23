@@ -359,7 +359,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
         
         layersBtn = ToggleButton()
-        layersBtn.setTitle("Слои", for: .normal)
+        layersBtn.setTitle("Слои")
         layersBtn.addAction { [unowned self] in
             self.layersTableView.isHidden.toggle()
             self.view.setNeedsLayout()
