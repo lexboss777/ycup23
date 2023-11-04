@@ -271,7 +271,8 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func updatePlayMixButton() {
-        playBtn.configuration!.image = self.getImage(self.isPlayingMix ? pauseIcon : playIcon)
+        let active = self.isPlayingMix && mixRecorder?.isRecording == false
+        playBtn.configuration!.image = self.getImage(active ? pauseIcon : playIcon)
     }
     
     private func updateMixRecordButton() {
