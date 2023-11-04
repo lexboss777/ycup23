@@ -232,12 +232,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
         
         isPlayingMix.toggle()
-        updatePlayMixButton()
+        
         if isPlayingMix {
             playMix(record: record)
         } else {
             stopMix()
         }
+        
+        updatePlayMixButton()
     }
     
     private func micRecordClicked() {
@@ -267,7 +269,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func updatePlayMixButton() {
-        let active = self.isPlayingMix && mixRecorder?.isRecording == false
+        let active = self.isPlayingMix && (mixRecorder == nil || mixRecorder!.isRecording == false)
         playBtn.configuration!.image = self.getImage(active ? pauseIcon : playIcon)
     }
     
