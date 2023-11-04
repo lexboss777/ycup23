@@ -8,19 +8,18 @@ class AmplitudeView: UIView {
         }
     }
     
-    let lineSpacing: CGFloat = 0.0
+    let lineSpacing: CGFloat = 1.0
+    let color = UIColor.accent
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        
         context.clear(rect)
-        
-        context.setFillColor(UIColor.accent.cgColor)
+        context.setFillColor(color.cgColor)
         
         let rectWidth = (rect.width - lineSpacing * CGFloat(amplitudes.count - 1)) / CGFloat(amplitudes.count)
-                let maxHeight = rect.height
+        let maxHeight = rect.height
         
         for (index, amplitude) in amplitudes.enumerated() {
             let x = CGFloat(index) * (rectWidth + lineSpacing)
