@@ -25,7 +25,7 @@
 		88A0CF262AF2E088006B08E4 /* Percussion in Resources */ = {isa = PBXBuildFile; fileRef = 88A0CF252AF2E088006B08E4 /* Percussion */; };
 		88A0CF292AF2E32D006B08E4 /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88A0CF282AF2E32D006B08E4 /* AudioKit */; };
 		88A62A0B2AF1931000F0F1DE /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A62A0A2AF1931000F0F1DE /* ToggleButton.swift */; };
-		88B03D492AF411EC00B8769A /* Guitar in Resources */ = {isa = PBXBuildFile; fileRef = 88B03D482AF411EC00B8769A /* Guitar */; };
+		88B03D492AF411EC00B8769A /* Melody in Resources */ = {isa = PBXBuildFile; fileRef = 88B03D482AF411EC00B8769A /* Melody */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +48,7 @@
 		88A0CF112AF2C107006B08E4 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		88A0CF252AF2E088006B08E4 /* Percussion */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Percussion; sourceTree = "<group>"; };
 		88A62A0A2AF1931000F0F1DE /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
-		88B03D482AF411EC00B8769A /* Guitar */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Guitar; sourceTree = "<group>"; };
+		88B03D482AF411EC00B8769A /* Melody */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Melody; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +139,7 @@
 		88A0CF132AF2DE02006B08E4 /* AudioSamples */ = {
 			isa = PBXGroup;
 			children = (
-				88B03D482AF411EC00B8769A /* Guitar */,
+				88B03D482AF411EC00B8769A /* Melody */,
 				88A0CF252AF2E088006B08E4 /* Percussion */,
 			);
 			path = AudioSamples;
@@ -210,7 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88630B502AF011E4006297E2 /* Assets.xcassets in Resources */,
-				88B03D492AF411EC00B8769A /* Guitar in Resources */,
+				88B03D492AF411EC00B8769A /* Melody in Resources */,
 				88A0CF262AF2E088006B08E4 /* Percussion in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

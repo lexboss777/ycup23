@@ -291,7 +291,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        melodyView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Guitar"))        
+        melodyView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Melody"))        
         drumsView = addTool(UIImage(named: "drums")!, "ударные", getAudioSamples("Percussion"))
         windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
         
