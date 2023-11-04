@@ -205,7 +205,9 @@ class ViewController: UIViewController, ToolViewDelegate {
                     print("Error during convertion: \(error)")
                 } else {
                     guard let self = self else { return }
-                    self.shareMix()
+                    DispatchQueue.main.async {
+                        self.shareMix()
+                    }
                 }
             }
         }
@@ -227,7 +229,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         options.channels = UInt32(2)
         
         let converter = FormatConverter(inputURL: file.url, outputURL: mixRecordURL, options: options)
-        converter.start(completionHandler: completion)
+        DispatchQueue.global(qos: .userInitiated).async {
+            converter.start(completionHandler: completion)
+        }
     }
     
     private func playBtnClicked(_ record: Bool) {
