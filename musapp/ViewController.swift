@@ -40,6 +40,8 @@ class ViewController: UIViewController, ToolViewDelegate {
     var isPlayingMix = false
     
     var recordBtn: UIButton!
+    var mixRecorder: NodeRecorder?
+    var mixRecordURL: URL!
     
     var micRecordBtn: UIButton!
     var isMicRecording = false
@@ -79,6 +81,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
         
         micRecorder.clearFiles()
+        
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        mixRecordURL = documentsDirectory.appendingPathComponent("mix.wav")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -145,7 +150,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
     }
     
-    private func playMix() {
+    private func playMix(record: Bool) {
         let engineMixer = Mixer()
         
         engine.output = engineMixer
@@ -165,10 +170,20 @@ class ViewController: UIViewController, ToolViewDelegate {
             layer.player = player
         }
         
+        if record {
+            mixRecorder = try? NodeRecorder(node: engineMixer)
+            try? mixRecorder?.record()
+        } else {
+            mixRecorder = nil
+        }
+        
         players.forEach { $0.start() }
     }
     
     private func stopMix() {
+        
+        mixRecorder?.stop()
+        
         for layer in layers {
             guard let player = layer.player else {
                 continue
@@ -181,14 +196,42 @@ class ViewController: UIViewController, ToolViewDelegate {
         engine.stop()
         engine.input?.detach()
         
-        print("stopMix end")
+        if let file = mixRecorder?.audioFile {
+            convertMix(file) { [weak self] error in
+                if let error = error {
+                    print("Error during convertion: \(error)")
+                } else {
+                    guard let self = self else { return }
+                    self.shareMix()
+                }
+            }
+        }
+    }
+    
+    private func shareMix() {
+        if FileManager.default.fileExists(atPath: mixRecordURL.path) {
+            let activityViewController = UIActivityViewController(activityItems: [mixRecordURL], applicationActivities: nil)
+            present(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
+    private func convertMix(_ file: AVAudioFile, _ completion: @escaping (_ error: Error?) -> Void) {
+        var options = FormatConverter.Options()
+        options.format = .wav
+        options.sampleRate = Double(22050)
+        options.bitDepth = UInt32(16)
+        options.bitRate = 128 * 1_000
+        options.channels = UInt32(2)
+        
+        let converter = FormatConverter(inputURL: file.url, outputURL: mixRecordURL, options: options)
+        converter.start(completionHandler: completion)
     }
     
     private func updatePlayMixButton() {
         self.playBtn.configuration!.image = self.getImage(self.isPlayingMix ? pauseIcon : playIcon)
     }
     
-    private func playBtnClicked() {
+    private func playBtnClicked(_ record: Bool) {
         if playingLayerUUID != nil {
             stopPlayLayer()
             updateLayers()
@@ -206,7 +249,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         isPlayingMix.toggle()
         updatePlayMixButton()
         if isPlayingMix {
-            playMix()
+            playMix(record: record)
         } else {
             stopMix()
         }
@@ -369,14 +412,20 @@ class ViewController: UIViewController, ToolViewDelegate {
         view.addSubview(layersTableView)
         
         playBtn = createButton("play.fill", 12)
-        playBtn.addAction { [unowned self] in
-            self.playBtnClicked()
+        playBtn.addAction { [weak self] in
+            guard let self = self else { return }
+            self.playBtnClicked(false)
         }
         
         recordBtn = createButton("circle.fill", 8)
+        recordBtn.addAction { [weak self] in
+            guard let self = self else { return }
+            self.playBtnClicked(true)
+        }
         
         micRecordBtn = createButton("mic.fill", 12)
-        micRecordBtn.addAction { [unowned self] in
+        micRecordBtn.addAction { [weak self] in
+            guard let self = self else { return }
             self.micRecordClicked()
         }
     }
