@@ -505,14 +505,17 @@ class ViewController: UIViewController, ToolViewDelegate {
         let toolSpaceW = spaceW / CGFloat(toolViews.count - 1)
         
         var x = margin
-        var toolBottom = 0.0
+        var closedToolBottom = 0.0
         
         for tool in toolViews {
             tool.sizeToFit()
             tool.move(x, topMargin)
             x += toolEdgeSize + toolSpaceW
             tool.layer.cornerRadius = tool.frame.width / 2
-            toolBottom = tool.frame.maxY
+            
+            if !tool.isOpen {
+                closedToolBottom = tool.frame.maxY
+            }
         }
         
         layersBtn.sizeToFit()
@@ -538,7 +541,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         let gradientAdditionalTopMargin = 40.0
         let gradientW = view.frame.width - 2 * margin
-        let gradientY = toolBottom + gradientAdditionalTopMargin
+        let gradientY = closedToolBottom + gradientAdditionalTopMargin
         let gradientH = layersBtn.frame.minY - amplH - gradientY
         gradientLayer.frame = CGRect(x: margin, y: gradientY, width: gradientW, height: gradientH)
         
