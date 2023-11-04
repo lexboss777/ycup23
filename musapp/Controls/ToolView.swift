@@ -52,7 +52,7 @@ class ToolView: UIView {
         circleView.backgroundColor = .white
         
         titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        titleLabel.font = YSText.regular(12)
         
         addSubview(circleView)
         circleView.layer.masksToBounds = true
@@ -136,7 +136,7 @@ class ToolView: UIView {
         
         for sample in samples {
             let button = UIButton(type: .system)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+            button.titleLabel?.font = YSText.regular(12)
             button.setTitle(sample.name, for: .normal)
             button.setTitleColor(.black, for: .normal)
             buttons.append(button)
