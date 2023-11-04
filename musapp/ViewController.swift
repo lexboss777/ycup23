@@ -81,7 +81,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         micRecorder.clearFiles()
         
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        mixRecordURL = documentsDirectory.appendingPathComponent("mix.wav")
+        mixRecordURL = documentsDirectory.appendingPathComponent("musapp.wav")
     }
     
     required init?(coder aDecoder: NSCoder) {
