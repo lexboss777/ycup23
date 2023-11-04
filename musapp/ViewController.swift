@@ -194,6 +194,10 @@ class ViewController: UIViewController, ToolViewDelegate {
             updateLayers()
         }
         
+        if isMicRecording {
+            micRecordClicked()
+        }
+        
         if !isPlayingMix && layers.isEmpty {
             print("nothing to play")
             return
@@ -258,6 +262,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     internal func play(layer: AudioLayer) {
         stopPlayLayer()
         stopMixIfPlaying()
+        if isMicRecording {
+            micRecordClicked()
+        }
         
         playingLayerUUID = layer.id
         
