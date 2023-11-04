@@ -209,6 +209,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func micRecordClicked() {
+        stopPlayLayer()
+        stopMixIfPlaying()
+        
         isMicRecording.toggle()
         
         if isMicRecording {
