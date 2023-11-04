@@ -221,8 +221,10 @@ class ViewController: UIViewController, ToolViewDelegate {
                 return
             }
             
-            let sample = AudioSample(path: url, name: "temp")
-            selectedLayer = appendToLayers(toolName: "микрофон", sample: sample)
+            let micCount = layers.filter{ $0.isMicRecord }.count
+            let sample = AudioSample(path: url, name: String(micCount + 1))
+            selectedLayer = appendToLayers(toolName: "запись", sample: sample)
+            selectedLayer!.isMicRecord = true
             updateLayers()
         }
     }
@@ -291,7 +293,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        melodyView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Melody"))        
+        melodyView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Melody"))
         drumsView = addTool(UIImage(named: "drums")!, "ударные", getAudioSamples("Percussion"))
         windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
         
