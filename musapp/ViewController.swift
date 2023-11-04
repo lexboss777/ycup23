@@ -53,7 +53,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     let minSpeed: Float = 0
     
     let engine = AudioEngine()
-    var engineMixer: Mixer?
+    var playersMixer: Mixer?
     var layerPlayer = AudioPlayer()
     
     var fft: FFTTap?
@@ -154,11 +154,14 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func playMix(record: Bool) {
-        engineMixer = Mixer()
+        playersMixer = Mixer()
         
-        guard let engineMixer else { return }
+        guard let playersMixer else { return }
         
+        let engineMixer = Mixer()
+        engineMixer.addInput(playersMixer)
         engine.output = engineMixer
+        
         try! engine.start()
         
         for layer in self.layers {
@@ -172,7 +175,7 @@ class ViewController: UIViewController, ToolViewDelegate {
             mixRecorder = nil
         }
         
-        fft = FFTTap.init(engine.output!, callbackQueue: DispatchQueue.main, handler: handleFFT)
+        fft = FFTTap.init(playersMixer, callbackQueue: DispatchQueue.main, handler: handleFFT)
         fft?.start()
         
         updateMixRecordButton()
@@ -343,7 +346,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func appendLayerIntoMix(_ layer: AudioLayer) {
-        guard let engineMixer else { return }
+        guard let playersMixer else { return }
         
         let audioFile = try! AVAudioFile(forReading: layer.sample.path)
         let player = AudioPlayer(file: audioFile, buffered: true)!
@@ -351,7 +354,7 @@ class ViewController: UIViewController, ToolViewDelegate {
             self.playerCompletionHandler(layer)
         }
         player.volume = layer.isMuted ? 0 : layer.volume
-        engineMixer.addInput(player)
+        playersMixer.addInput(player)
         layer.player = player
         player.start()
     }
