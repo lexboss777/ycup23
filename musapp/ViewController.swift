@@ -359,6 +359,23 @@ class ViewController: UIViewController, ToolViewDelegate {
         player.start()
     }
     
+    private func showMicrophonePermissionAlert() {
+        let alert = UIAlertController(title: "Доступ к микрофону запрещен",
+                                      message: "Пожалуйста, разрешите доступ к микрофону в настройках приложения",
+                                      preferredStyle: .alert)
+        
+        let closeAction = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
+        let settingsAction = UIAlertAction(title: "Настройки", style: .default) { _ in
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        }
+        
+        alert.addAction(closeAction)
+        alert.addAction(settingsAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - internal methods
     
     internal func updateLayers() {
@@ -485,6 +502,12 @@ class ViewController: UIViewController, ToolViewDelegate {
         micRecordBtn = createButton("mic.fill", 12)
         micRecordBtn.addAction { [weak self] in
             guard let self = self else { return }
+            
+            if AVCaptureDevice.authorizationStatus(for: .audio) == .denied {
+                self.showMicrophonePermissionAlert()
+                return
+            }
+            
             self.micRecordClicked()
         }
     }
