@@ -152,8 +152,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         engine.output = engineMixer
         try! engine.start()
         
-        var players:[AudioPlayer] = []
-        
         for layer in self.layers {
             appendLayerIntoMix(layer)
         }
@@ -166,8 +164,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
         
         updateMixRecordButton()
-        
-        players.forEach { $0.start() }
     }
     
     private func stopMix() {
