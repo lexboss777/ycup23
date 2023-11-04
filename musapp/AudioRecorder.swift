@@ -7,43 +7,27 @@ class AudioRecorder {
     var audioRecorder: AVAudioRecorder?
     
     func startRecording(completion: @escaping (Bool) -> Void) {
-        
-        do {
-            let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playAndRecord)
-            
-            session.requestRecordPermission() { [unowned self] allowed in
-                DispatchQueue.main.async { [unowned self] in
-                    if allowed {
-                        if self.audioRecorder == nil {
-                            self.audioRecorder = try! AVAudioRecorder(url: newRecordingFileUrl(), settings: [:])
-                        }
-                        
-                        self.audioRecorder!.isMeteringEnabled = true
-                        self.audioRecorder!.record()
-                        completion(true)
-                    } else {
-                        print("no mic permission")
-                        completion(false)
+        AVAudioSession.sharedInstance().requestRecordPermission() { [unowned self] allowed in
+            DispatchQueue.main.async { [unowned self] in
+                if allowed {
+                    if self.audioRecorder == nil {
+                        self.audioRecorder = try! AVAudioRecorder(url: newRecordingFileUrl(), settings: [:])
                     }
+                    
+                    self.audioRecorder!.isMeteringEnabled = true
+                    self.audioRecorder!.record()
+                    completion(true)
+                } else {
+                    print("no mic permission")
+                    completion(false)
                 }
             }
-        } catch {
-            print(error)
         }
     }
     
     func stopRecording() -> URL? {
-        do {
-            audioRecorder?.stop()
-            try AVAudioSession.sharedInstance().setActive(false)
-            
-            return audioRecorder?.url
-        } catch {
-            print(error)
-        }
-        
-        return nil
+        audioRecorder?.stop()
+        return audioRecorder?.url
     }
     
     func clearFiles() {
