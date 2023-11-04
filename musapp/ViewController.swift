@@ -53,14 +53,14 @@ class ViewController: UIViewController, ToolViewDelegate {
     let minSpeed: Float = 0
     
     let engine = AudioEngine()
-    var player = AudioPlayer()
+    var layerPlayer = AudioPlayer()
     
     // MARK: - init
 
     init() {
         toolViews = []
         super.init(nibName: nil, bundle: nil)
-        player.completionHandler = { [unowned self] in
+        layerPlayer.completionHandler = { [unowned self] in
             self.stopPlayLayer()
             self.updateLayers()
         }
@@ -312,7 +312,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     internal func stopPlayLayer() {
         playingLayerUUID = nil
-        player.stop()
+        layerPlayer.stop()
     }
     
     internal func play(layer: AudioLayer) {
@@ -324,12 +324,12 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         playingLayerUUID = layer.id
         
-        engine.output = player
+        engine.output = layerPlayer
         try! engine.start()
         
-        try! player.load(url: layer.sample.path)
+        try! layerPlayer.load(url: layer.sample.path)
         
-        player.play()
+        layerPlayer.play()
     }
     
     internal func stopMixIfPlaying() {
