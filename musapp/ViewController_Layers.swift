@@ -88,9 +88,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, LayerCellD
             let layer = layers[indexPath.row]
             layer.isMuted.toggle()
             
-            guard let player = layer.player else {
-                return
-            }
+            guard let player = layer.player else { return }
             
             if layer.isMuted {
                 player.volume = 0

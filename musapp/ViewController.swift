@@ -53,6 +53,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     let minSpeed: Float = 0
     
     let engine = AudioEngine()
+    var engineMixer: Mixer?
     var layerPlayer = AudioPlayer()
     
     // MARK: - init
@@ -144,7 +145,9 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func playMix(record: Bool) {
-        let engineMixer = Mixer()
+        engineMixer = Mixer()
+        
+        guard let engineMixer else { return }
         
         engine.output = engineMixer
         try! engine.start()
@@ -152,15 +155,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         var players:[AudioPlayer] = []
         
         for layer in self.layers {
-            let audioFile = try! AVAudioFile(forReading: layer.sample.path)
-            let player = AudioPlayer(file: audioFile, buffered: true)!
-            player.completionHandler = {
-                self.playerCompletionHandler(layer)
-            }
-            player.volume = layer.isMuted ? 0 : layer.volume
-            engineMixer.addInput(player)
-            players.append(player)
-            layer.player = player
+            appendLayerIntoMix(layer)
         }
         
         if record {
@@ -181,9 +176,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         updateMixRecordButton()
         
         for layer in layers {
-            guard let player = layer.player else {
-                continue
-            }
+            guard let player = layer.player else { continue }
             
             player.stop()
             layer.player = nil
@@ -263,9 +256,7 @@ class ViewController: UIViewController, ToolViewDelegate {
                 }
             }
         } else {
-            guard let url = micRecorder.stopRecording() else {
-                return
-            }
+            guard let url = micRecorder.stopRecording() else { return }
             
             let micCount = layers.filter{ $0.isMicRecord }.count
             let sample = AudioSample(path: url, name: String(micCount + 1))
@@ -301,6 +292,20 @@ class ViewController: UIViewController, ToolViewDelegate {
         btn.configuration = configuration
         view.addSubview(btn)
         return btn
+    }
+    
+    private func appendLayerIntoMix(_ layer: AudioLayer) {
+        guard let engineMixer else { return }
+        
+        let audioFile = try! AVAudioFile(forReading: layer.sample.path)
+        let player = AudioPlayer(file: audioFile, buffered: true)!
+        player.completionHandler = {
+            self.playerCompletionHandler(layer)
+        }
+        player.volume = layer.isMuted ? 0 : layer.volume
+        engineMixer.addInput(player)
+        layer.player = player
+        player.start()
     }
     
     // MARK: - internal methods
@@ -385,9 +390,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
         volumeSlider.tintColor = .accent
         volumeSlider.addAction { [unowned self] in
-            guard let layer = self.selectedLayer else {
-                return
-            }
+            guard let layer = self.selectedLayer else { return }
             
             layer.volume = self.volumeSlider.value
         }
@@ -399,9 +402,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         speedSlider.maximumValue = maxSpeed
         speedSlider.tintColor = .accent
         speedSlider.addAction { [unowned self] in
-            guard let layer = self.selectedLayer else {
-                return
-            }
+            guard let layer = self.selectedLayer else { return }
             
             layer.interval = self.maxSpeed - self.speedSlider.value
         }
@@ -544,6 +545,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         let layer = appendToLayers(toolName: toolView.getTitle(), sample: sample)
         selectedLayer = layer
         updateLayers()
+        
+        if isPlayingMix {
+            appendLayerIntoMix(layer)
+        }
     }
 }
 

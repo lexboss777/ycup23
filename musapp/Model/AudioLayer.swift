@@ -9,9 +9,7 @@ class AudioLayer {
     var interval: Float = 1
     var volume: Float = 1 {
         didSet {
-            guard let player = player else {
-                return
-            }
+            guard let player = player else { return }
             
             player.volume = volume
         }

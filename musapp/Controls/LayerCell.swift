@@ -71,9 +71,7 @@ class LayerCell: UITableViewCell {
         containerView.addSubview(muteBtn)
         configure(btn: muteBtn, unmutedIcon, UIColor.clear)
         muteBtn.addAction { [unowned self] in
-            guard let delegate = self.delegate else {
-                return
-            }
+            guard let delegate = self.delegate else { return }
             
             delegate.muteOrUnmute(cell: self)
             self.isMuted.toggle()
@@ -83,9 +81,7 @@ class LayerCell: UITableViewCell {
         containerView.addSubview(playBtn)
         configure(btn: playBtn, playIcon, UIColor.clear)
         playBtn.addAction { [unowned self] in
-            guard let delegate = self.delegate else {
-                return
-            }
+            guard let delegate = self.delegate else { return }
             
             delegate.playOrStop(cell: self)
             self.isPlaying.toggle()
