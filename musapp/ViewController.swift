@@ -10,7 +10,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     let playIcon = "play.fill"
     let pauseIcon = "pause.fill"
-
+    
     // MARK: - properties
     
     var melodyView: ToolView!
@@ -56,8 +56,12 @@ class ViewController: UIViewController, ToolViewDelegate {
     var engineMixer: Mixer?
     var layerPlayer = AudioPlayer()
     
+    var fft: FFTTap?
+    var amplitudes : [CGFloat] = Array(repeating: 0.5, count: 100)
+    var amplitudeView: AmplitudeView!
+    
     // MARK: - init
-
+    
     init() {
         toolViews = []
         super.init(nibName: nil, bundle: nil)
@@ -79,7 +83,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         mixRecordURL = documentsDirectory.appendingPathComponent("mix.wav")
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) is not supported")
     }
@@ -163,7 +167,45 @@ class ViewController: UIViewController, ToolViewDelegate {
             mixRecorder = nil
         }
         
+        fft = FFTTap.init(engine.output!, callbackQueue: DispatchQueue.main, handler: handleFFT)
+        fft?.start()
+        
         updateMixRecordButton()
+    }
+    
+    private func handleFFT(_ array: Array<Float>) {
+        for i in stride(from: 0, to: array.count, by: 2) {
+            
+            let real = CGFloat(array[i])
+            let imaginary = CGFloat(array[i + 1])
+            
+            let sum = real * real + imaginary * imaginary
+            let normalizedBinMagnitude = CGFloat(2.0) * sqrt(sum) / CGFloat(array.count)
+            let amplitude = (20.0 * log10(normalizedBinMagnitude))
+            
+            var scaledAmplitude: CGFloat = (amplitude + 250) / 229.80
+            
+            if scaledAmplitude < 0 {
+                scaledAmplitude = 0
+            }
+            
+            if scaledAmplitude > 1.0 {
+                scaledAmplitude = 1.0
+            }
+            
+            if i/2 < self.amplitudes.count {
+                self.amplitudes[i/2] = self.mapy(n: scaledAmplitude, start1: 0.3, stop1: 0.9, start2: 0.0, stop2: 1.0)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.amplitudeView.amplitudes = self.amplitudes
+        }
+    }
+    
+    // simple mapping function to scale a value to a different range
+    func mapy(n:CGFloat, start1:CGFloat, stop1:CGFloat, start2:CGFloat, stop2:CGFloat) -> CGFloat {
+        return ((n-start1)/(stop1-start1))*(stop2-start2)+start2;
     }
     
     private func stopMix() {
@@ -362,7 +404,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         view.backgroundColor = .black
         
-        melodyView = addTool(UIImage(named: "melody")!, "мелодия", getAudioSamples("Melody"))
+        melodyView = addTool(UIImage(named: "melody")!, "мелодии", getAudioSamples("Melody"))
         drumsView = addTool(UIImage(named: "drums")!, "ударные", getAudioSamples("Percussion"))
         windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
         
@@ -374,6 +416,9 @@ class ViewController: UIViewController, ToolViewDelegate {
             self.updateSliders()
         }
         view.addSubview(layersBtn)
+        
+        amplitudeView = AmplitudeView()
+        view.addSubview(amplitudeView)
         
         gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
@@ -478,12 +523,16 @@ class ViewController: UIViewController, ToolViewDelegate {
         micRecordBtn.setSize(btnSize, btnSize)
         micRecordBtn.move(recordBtn.frame.minX - btnMargin - micRecordBtn.frame.width, layersBtn.frame.minY)
         
-        let spectrumH = 54.0
+        let amplH = 54.0
+        let amplMargin = 8.0
+        amplitudeView.setSize(view.frame.width - 2 * margin, amplH - 2 * amplMargin)
+        amplitudeView.move(margin, layersBtn.frame.minY - amplH + amplMargin)
+        view.bringSubviewToFront(amplitudeView)
         
         let gradientAdditionalTopMargin = 40.0
         let gradientW = view.frame.width - 2 * margin
         let gradientY = toolBottom + gradientAdditionalTopMargin
-        let gradientH = layersBtn.frame.minY - spectrumH - gradientY
+        let gradientH = layersBtn.frame.minY - amplH - gradientY
         gradientLayer.frame = CGRect(x: margin, y: gradientY, width: gradientW, height: gradientH)
         
         volumeSlider.sizeToFit()
@@ -499,7 +548,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersTableView.setWidth(gradientW)
         layersTableView.setHeight(min(layersTableViewMaxH, layersTableViewContentH))
         layersTableView.setLeft(margin)
-        layersTableView.setTop(layersBtn.frame.minY - spectrumH - layersTableView.frame.height)
+        layersTableView.setTop(layersBtn.frame.minY - amplH - layersTableView.frame.height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -508,7 +557,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     // MARK: - ToolViewDelegate
 
-    /// called when toolView changed it's state: opened or closed
+    // called when toolView changed it's state: opened or closed
     
     func toggled(toolView: ToolView) {
         
@@ -537,7 +586,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     func sampleTapped(_ toolView: ToolView, _ sample: AudioSample) {
         
-        /// close toolView when sample selected while it was open
+        // close toolView when sample selected while it was open
         toolView.toggleOpen()
         toggled(toolView: toolView)
         

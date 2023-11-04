@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		466464552AF673AB00AB6830 /* AmplitudeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466464542AF673AB00AB6830 /* AmplitudeView.swift */; };
 		795BC1B22AF3BCB200C4FC0E /* UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BC1B12AF3BCB200C4FC0E /* UIControl.swift */; };
 		795BC1B42AF3BD4200C4FC0E /* ViewController_Layers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BC1B32AF3BD4200C4FC0E /* ViewController_Layers.swift */; };
 		795BC1B62AF3BE0600C4FC0E /* LayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BC1B52AF3BE0600C4FC0E /* LayerCell.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		466464542AF673AB00AB6830 /* AmplitudeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeView.swift; sourceTree = "<group>"; };
 		795BC1B12AF3BCB200C4FC0E /* UIControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControl.swift; sourceTree = "<group>"; };
 		795BC1B32AF3BD4200C4FC0E /* ViewController_Layers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController_Layers.swift; sourceTree = "<group>"; };
 		795BC1B52AF3BE0600C4FC0E /* LayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerCell.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				88630B5B2AF01699006297E2 /* ToolView.swift */,
 				88A62A0A2AF1931000F0F1DE /* ToggleButton.swift */,
 				795BC1B52AF3BE0600C4FC0E /* LayerCell.swift */,
+				466464542AF673AB00AB6830 /* AmplitudeView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				466464552AF673AB00AB6830 /* AmplitudeView.swift in Sources */,
 				795BC1BB2AF3DAFD00C4FC0E /* AudioSample.swift in Sources */,
 				88A62A0B2AF1931000F0F1DE /* ToggleButton.swift in Sources */,
 				795BC1BD2AF3E4FF00C4FC0E /* AudioLayer.swift in Sources */,
