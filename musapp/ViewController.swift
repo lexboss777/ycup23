@@ -227,10 +227,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         converter.start(completionHandler: completion)
     }
     
-    private func updatePlayMixButton() {
-        self.playBtn.configuration!.image = self.getImage(self.isPlayingMix ? pauseIcon : playIcon)
-    }
-    
     private func playBtnClicked(_ record: Bool) {
         if playingLayerUUID != nil {
             stopPlayLayer()
@@ -242,7 +238,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
         
         if !isPlayingMix && layers.isEmpty {
-            print("nothing to play")
+            print("nothing to play or record")
             return
         }
         
@@ -281,6 +277,14 @@ class ViewController: UIViewController, ToolViewDelegate {
             
             updateLayers()
         }
+    }
+    
+    private func updatePlayMixButton() {
+        playBtn.configuration!.image = self.getImage(self.isPlayingMix ? pauseIcon : playIcon)
+    }
+    
+    private func updateMixRecordButton() {
+        recordBtn.configuration?.baseForegroundColor = mixRecorder == nil ? .black : .red
     }
     
     private func updateMicRecordBtn() {
