@@ -15,6 +15,7 @@
 		795BC1BB2AF3DAFD00C4FC0E /* AudioSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BC1BA2AF3DAFD00C4FC0E /* AudioSample.swift */; };
 		795BC1BD2AF3E4FF00C4FC0E /* AudioLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BC1BC2AF3E4FF00C4FC0E /* AudioLayer.swift */; };
 		88071BA62AF65334004C4ED4 /* YandexSansText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88071BA52AF65099004C4ED4 /* YandexSansText-Regular.ttf */; };
+		88071BB22AF690DB004C4ED4 /* Wind in Resources */ = {isa = PBXBuildFile; fileRef = 88071BB12AF690DB004C4ED4 /* Wind */; };
 		881E05302AF5891100D8A06D /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E052F2AF5891100D8A06D /* AudioRecorder.swift */; };
 		88630B472AF011E2006297E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88630B462AF011E2006297E2 /* AppDelegate.swift */; };
 		88630B4B2AF011E2006297E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88630B4A2AF011E2006297E2 /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 		795BC1BA2AF3DAFD00C4FC0E /* AudioSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSample.swift; sourceTree = "<group>"; };
 		795BC1BC2AF3E4FF00C4FC0E /* AudioLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLayer.swift; sourceTree = "<group>"; };
 		88071BA52AF65099004C4ED4 /* YandexSansText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YandexSansText-Regular.ttf"; sourceTree = "<group>"; };
+		88071BB12AF690DB004C4ED4 /* Wind */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Wind; sourceTree = "<group>"; };
 		881E052F2AF5891100D8A06D /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		88630B432AF011E2006297E2 /* musapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = musapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88630B462AF011E2006297E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 		88A0CF132AF2DE02006B08E4 /* AudioSamples */ = {
 			isa = PBXGroup;
 			children = (
+				88071BB12AF690DB004C4ED4 /* Wind */,
 				88B03D482AF411EC00B8769A /* Melody */,
 				88A0CF252AF2E088006B08E4 /* Percussion */,
 			);
@@ -225,6 +228,7 @@
 			files = (
 				88630B502AF011E4006297E2 /* Assets.xcassets in Resources */,
 				88B03D492AF411EC00B8769A /* Melody in Resources */,
+				88071BB22AF690DB004C4ED4 /* Wind in Resources */,
 				88A0CF262AF2E088006B08E4 /* Percussion in Resources */,
 				88071BA62AF65334004C4ED4 /* YandexSansText-Regular.ttf in Resources */,
 			);

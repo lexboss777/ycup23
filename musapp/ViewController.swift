@@ -115,7 +115,12 @@ class ViewController: UIViewController, ToolViewDelegate {
     private func getAudioSamples(_ subdir: String) -> [AudioSample] {
         var samples = Array<AudioSample>()
         
-        if var paths = Bundle.main.urls(forResourcesWithExtension: "wav", subdirectory: subdir) {
+        let directoryURL = Bundle.main.bundleURL.appendingPathComponent(subdir)
+        let fileURLs = try? FileManager.default.contentsOfDirectory(at: directoryURL, includingPropertiesForKeys: nil, options: [])
+        let allowedExtensions = ["wav", "mp3"]
+        let filteredURLs = fileURLs?.filter { allowedExtensions.contains($0.pathExtension) }
+        
+        if var paths = filteredURLs {
             paths.sort() { $0.path < $1.path }
             
             for path in paths {
@@ -408,7 +413,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         melodyView = addTool(UIImage(named: "melody")!, "мелодии", getAudioSamples("Melody"))
         drumsView = addTool(UIImage(named: "drums")!, "ударные", getAudioSamples("Percussion"))
-        windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Percussion"))
+        windsView = addTool(UIImage(named: "winds")!, "духовые", getAudioSamples("Wind"))
         
         layersBtn = ToggleButton()
         layersBtn.setTitle("Слои")
