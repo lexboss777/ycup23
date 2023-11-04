@@ -12,9 +12,20 @@ class AudioRecorder {
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playAndRecord)
             
-            audioRecorder = try AVAudioRecorder(url: newRecordingFileUrl(), settings: [:])
-            audioRecorder!.isMeteringEnabled = true
-            audioRecorder!.record()
+            session.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async { [unowned self] in
+                    if allowed {
+                        if self.audioRecorder == nil {
+                            self.audioRecorder = try! AVAudioRecorder(url: newRecordingFileUrl(), settings: [:])
+                        }
+                        
+                        self.audioRecorder!.isMeteringEnabled = true
+                        self.audioRecorder!.record()
+                    } else {
+                        print("no mic permission")
+                    }
+                }
+            }
         } catch {
             print(error)
         }
