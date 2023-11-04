@@ -177,12 +177,15 @@ class ViewController: UIViewController, ToolViewDelegate {
             mixRecorder = nil
         }
         
+        updateMixRecordButton()
+        
         players.forEach { $0.start() }
     }
     
     private func stopMix() {
         
         mixRecorder?.stop()
+        updateMixRecordButton()
         
         for layer in layers {
             guard let player = layer.player else {
@@ -284,7 +287,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     private func updateMixRecordButton() {
-        recordBtn.configuration?.baseForegroundColor = mixRecorder == nil ? .black : .red
+        recordBtn.configuration?.baseForegroundColor = mixRecorder?.isRecording == true ? .red : .black
     }
     
     private func updateMicRecordBtn() {
