@@ -6,7 +6,7 @@ class AudioRecorder {
     
     var audioRecorder: AVAudioRecorder?
     
-    func startRecording() {
+    func startRecording(completion: @escaping (Bool) -> Void) {
         
         do {
             let session = AVAudioSession.sharedInstance()
@@ -21,8 +21,10 @@ class AudioRecorder {
                         
                         self.audioRecorder!.isMeteringEnabled = true
                         self.audioRecorder!.record()
+                        completion(true)
                     } else {
                         print("no mic permission")
+                        completion(false)
                     }
                 }
             }

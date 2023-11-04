@@ -216,10 +216,13 @@ class ViewController: UIViewController, ToolViewDelegate {
         stopPlayLayer()
         stopMixIfPlaying()
         
-        isMicRecording.toggle()
-        
-        if isMicRecording {
-            micRecorder.startRecording()
+        if !isMicRecording {
+            micRecorder.startRecording { [unowned self] success in
+                if success {
+                    self.isMicRecording.toggle()
+                    self.updateMicRecordBtn()
+                }
+            }
         } else {
             guard let url = micRecorder.stopRecording() else {
                 return
@@ -229,9 +232,15 @@ class ViewController: UIViewController, ToolViewDelegate {
             let sample = AudioSample(path: url, name: String(micCount + 1))
             selectedLayer = appendToLayers(toolName: "запись", sample: sample)
             selectedLayer!.isMicRecord = true
+            
+            isMicRecording.toggle()
+            updateMicRecordBtn()
+            
             updateLayers()
         }
-        
+    }
+    
+    private func updateMicRecordBtn() {
         micRecordBtn.configuration?.baseForegroundColor = isMicRecording ? .red : .black
     }
     
