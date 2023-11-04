@@ -210,7 +210,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     private func shareMix() {
         if FileManager.default.fileExists(atPath: mixRecordURL.path) {
-            let activityViewController = UIActivityViewController(activityItems: [mixRecordURL], applicationActivities: nil)
+            let activityViewController = UIActivityViewController(activityItems: [mixRecordURL!], applicationActivities: nil)
             present(activityViewController, animated: true, completion: nil)
         }
     }
