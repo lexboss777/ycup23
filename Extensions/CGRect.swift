@@ -1,10 +1,3 @@
-//
-//  ToolView.swift
-//  musapp
-//
-//  Created by imac on 30.10.2023.
-//
-
 import Foundation
 import UIKit
 

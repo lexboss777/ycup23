@@ -1,10 +1,3 @@
-//
-//  FlipButton.swift
-//  musapp
-//
-//  Created by imac on 31.10.2023.
-//
-
 import UIKit
 
 class ToggleButton: UIButton {

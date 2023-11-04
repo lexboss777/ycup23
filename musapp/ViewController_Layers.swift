@@ -1,10 +1,3 @@
-//
-//  ViewController_Layers.swift
-//  musapp
-//
-//  Created by Ilnur Shafigullin on 02.11.2023.
-//
-
 import Foundation
 import UIKit
 

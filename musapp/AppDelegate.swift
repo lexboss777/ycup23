@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  musapp
-//
-//  Created by imac on 30.10.2023.
-//
-
 import UIKit
 
 @main
