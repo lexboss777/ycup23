@@ -165,8 +165,6 @@ class ViewController: UIViewController, ToolViewDelegate {
             layer.player = player
         }
         
-        print(engine.connectionTreeDescription)
-        
         players.forEach { $0.start() }
     }
     
@@ -183,7 +181,6 @@ class ViewController: UIViewController, ToolViewDelegate {
         engine.stop()
         engine.input?.detach()
         
-        print(engine.connectionTreeDescription)
         print("stopMix end")
     }
     
@@ -227,6 +224,8 @@ class ViewController: UIViewController, ToolViewDelegate {
             selectedLayer!.isMicRecord = true
             updateLayers()
         }
+        
+        micRecordBtn.configuration?.baseForegroundColor = isMicRecording ? .red : .black
     }
     
     private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
