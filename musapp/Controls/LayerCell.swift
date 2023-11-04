@@ -70,14 +70,14 @@ class LayerCell: UITableViewCell {
         containerView.addSubview(titleLabel)
         
         containerView.addSubview(deleteBtn)
-        deleteBtn.addAction {
+        deleteBtn.addAction { [unowned self] in
             self.delegate?.delete(cell: self)
         }
         configure(btn: deleteBtn, "xmark", UIColor(0xE4E4E4))
         
         containerView.addSubview(muteBtn)
         configure(btn: muteBtn, unmutedIcon, UIColor.clear)
-        muteBtn.addAction {
+        muteBtn.addAction { [unowned self] in
             guard let delegate = self.delegate else {
                 return
             }
@@ -89,7 +89,7 @@ class LayerCell: UITableViewCell {
         
         containerView.addSubview(playBtn)
         configure(btn: playBtn, playIcon, UIColor.clear)
-        playBtn.addAction {
+        playBtn.addAction { [unowned self] in
             guard let delegate = self.delegate else {
                 return
             }

@@ -65,7 +65,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     init() {
         toolViews = []
         super.init(nibName: nil, bundle: nil)
-        player.completionHandler = {
+        player.completionHandler = { [unowned self] in
             self.stopPlayLayer()
             self.updateLayers()
         }
@@ -317,7 +317,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         layersBtn = ToggleButton()
         layersBtn.setTitle("Слои", for: .normal)
-        layersBtn.addAction {
+        layersBtn.addAction { [unowned self] in
             self.layersTableView.isHidden.toggle()
             self.view.setNeedsLayout()
             self.updateSliders()
@@ -337,7 +337,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         volumeSlider.isHidden = true
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
         volumeSlider.tintColor = .accent
-        volumeSlider.addAction {
+        volumeSlider.addAction { [unowned self] in
             guard let layer = self.selectedLayer else {
                 return
             }
@@ -351,7 +351,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         speedSlider.minimumValue = minSpeed
         speedSlider.maximumValue = maxSpeed
         speedSlider.tintColor = .accent
-        speedSlider.addAction {
+        speedSlider.addAction { [unowned self] in
             guard let layer = self.selectedLayer else {
                 return
             }
@@ -369,14 +369,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         view.addSubview(layersTableView)
         
         playBtn = createButton("play.fill", 12)
-        playBtn.addAction {
+        playBtn.addAction { [unowned self] in
             self.playBtnClicked()
         }
         
         recordBtn = createButton("circle.fill", 8)
         
         micRecordBtn = createButton("mic.fill", 12)
-        micRecordBtn.addAction {
+        micRecordBtn.addAction { [unowned self] in
             self.micRecordClicked()
         }
     }
