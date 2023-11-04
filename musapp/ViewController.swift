@@ -213,6 +213,8 @@ class ViewController: UIViewController, ToolViewDelegate {
         mixRecorder?.stop()
         updateMixRecordButton()
         
+        amplitudeView.amplitudes = []
+        
         for layer in layers {
             guard let player = layer.player else { continue }
             
