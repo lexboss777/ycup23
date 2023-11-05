@@ -11,6 +11,8 @@ class ToolView: UIView {
     
     // MARK: - properties
     
+    private let circleDiameter = 61.0
+    
     private let iconImV = UIImageView()
     private let titleLabel = UILabel()
     private var buttons = Array<UIButton>()
@@ -65,18 +67,17 @@ class ToolView: UIView {
     override func sizeToFit() {
         
         var animDuration = 0.3
-        let edgeSize = 61.0
         let buttonsTopMargin = 23.0
         let buttonsBottomMargin = 38.0
         let buttonsInterMargin = 21.0
         
         if isOpen {
             
-            var h = edgeSize + buttonsTopMargin
+            var h = circleDiameter + buttonsTopMargin
             
             for button in buttons {
                 button.sizeToFit()
-                button.centerHorizontallyInView(circleView)
+                button.setWidth(circleView.frame.width)
                 button.setTop(h)
                 h += button.frame.height + buttonsInterMargin
             }
@@ -93,8 +94,8 @@ class ToolView: UIView {
             }
             
             UIView.animate(withDuration: animDuration, animations: {
-                self.setSize(edgeSize, edgeSize)
-                self.circleView.setSize(edgeSize, edgeSize)
+                self.setSize(self.circleDiameter, self.circleDiameter)
+                self.circleView.setSize(self.circleDiameter, self.circleDiameter)
             })
             
             iconImV.sizeToFit()
@@ -102,7 +103,7 @@ class ToolView: UIView {
             
             titleLabel.sizeToFit()
             titleLabel.centerHorizontallyInView(self)
-            titleLabel.setTop(edgeSize + 9)
+            titleLabel.setTop(circleDiameter + 9)
             
             if alignBottom {
                 iconImV.setTop(circleView.frame.height - iconImV.frame.height + 4)
@@ -124,6 +125,8 @@ class ToolView: UIView {
         for button in buttons {
             button.removeFromSuperview()
         }
+        
+        buttons = []
         
         self.samples = samples
         
@@ -164,6 +167,11 @@ class ToolView: UIView {
     @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             superview?.bringSubviewToFront(self)
+            
+            if gesture.location(in: self).y > circleDiameter {
+                return
+            }
+            
             toggleOpen()
             delegate?.toggled(toolView: self)
         }
