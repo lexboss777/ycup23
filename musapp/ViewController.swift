@@ -481,6 +481,10 @@ class ViewController: UIViewController, ToolViewDelegate {
             guard let layer = self.selectedLayer else { return }
             
             layer.volume = self.volumeSlider.value
+            
+            if layer.id == playingLayerUUID {
+                layerPlayer.volume = layer.volume
+            }
         }
         volumeSlider.setThumbImage(getSliderThumb("громкость"), for: .normal)
         view.addSubview(volumeSlider)
@@ -629,10 +633,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     }
     
     func tapped(toolView: ToolView) {
-        
-        guard let sample = toolView.samples.first else {
-            return
-        }
+        guard let sample = toolView.samples.first else { return }
         
         let layer = appendToLayers(toolName: toolView.getTitle(), sample: sample)
         selectedLayer = layer
