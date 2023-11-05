@@ -48,7 +48,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     var volumeSlider: VolumeSlider!
     
-    var speedSlider: UISlider!
+    var speedSlider: SpeedSlider!
     let maxSpeed: Float = 5
     let minSpeed: Float = 0
     
@@ -475,18 +475,20 @@ class ViewController: UIViewController, ToolViewDelegate {
         volumeSlider = VolumeSlider()
         volumeSlider.minimumTrackTintColor = .clear
         volumeSlider.maximumTrackTintColor = .clear
+        volumeSlider.tintColor = .clear
         volumeSlider.isHidden = true
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
-        volumeSlider.tintColor = .clear
         volumeSlider.addTarget(self, action: #selector(volumeSliderValueChanged(_:)), for: .valueChanged)
         volumeSlider.setThumbImage(getSliderThumb("громкость"), for: .normal)
         view.addSubview(volumeSlider)
         
-        speedSlider = UISlider()
+        speedSlider = SpeedSlider()
+        speedSlider.minimumTrackTintColor = .clear
+        speedSlider.maximumTrackTintColor = .clear
+        speedSlider.tintColor = .clear
         speedSlider.isHidden = true
         speedSlider.minimumValue = minSpeed
         speedSlider.maximumValue = maxSpeed
-        speedSlider.tintColor = .accent
         speedSlider.addTarget(self, action: #selector(speedSliderValueChanged(_:)), for: .valueChanged)
         speedSlider.setThumbImage(getSliderThumb("скорость"), for: .normal)
         view.addSubview(speedSlider)
