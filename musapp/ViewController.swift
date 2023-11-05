@@ -46,7 +46,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     var gradientLayer: CAGradientLayer!
     
-    var volumeSlider: UISlider!
+    var volumeSlider: VolumeSlider!
     
     var speedSlider: UISlider!
     let maxSpeed: Float = 5
@@ -472,10 +472,12 @@ class ViewController: UIViewController, ToolViewDelegate {
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         view.layer.addSublayer(gradientLayer)
         
-        volumeSlider = UISlider()
+        volumeSlider = VolumeSlider()
+        volumeSlider.minimumTrackTintColor = .clear
+        volumeSlider.maximumTrackTintColor = .clear
         volumeSlider.isHidden = true
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
-        volumeSlider.tintColor = .accent
+        volumeSlider.tintColor = .clear
         volumeSlider.addTarget(self, action: #selector(volumeSliderValueChanged(_:)), for: .valueChanged)
         volumeSlider.setThumbImage(getSliderThumb("громкость"), for: .normal)
         view.addSubview(volumeSlider)
