@@ -55,11 +55,13 @@ class ToolView: UIView {
         
         addSubview(titleLabel)
         
+        iconImV.isUserInteractionEnabled = true
+        
         let longGr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longGr.minimumPressDuration = 0.3
-        addGestureRecognizer(longGr)
+        iconImV.addGestureRecognizer(longGr)
         
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
+        iconImV.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
     }
     
     // MARK: - overridden base members
@@ -98,8 +100,8 @@ class ToolView: UIView {
                 self.circleView.setSize(self.circleDiameter, self.circleDiameter)
             })
             
-            iconImV.sizeToFit()
-            iconImV.centerHorizontallyInView(circleView)
+            iconImV.contentMode = .center
+            iconImV.setSize(circleDiameter, circleDiameter)
             
             titleLabel.sizeToFit()
             titleLabel.centerHorizontallyInView(self)
@@ -167,10 +169,6 @@ class ToolView: UIView {
     @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             superview?.bringSubviewToFront(self)
-            
-            if gesture.location(in: self).y > circleDiameter {
-                return
-            }
             
             toggleOpen()
             delegate?.toggled(toolView: self)
