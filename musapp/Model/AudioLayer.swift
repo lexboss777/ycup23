@@ -10,14 +10,14 @@ class AudioLayer {
     var volume: Float = 1 {
         didSet {
             guard let player = player else { return }
-            
+
             player.volume = volume
         }
     }
-    
+
     var isMuted = false
     var isMicRecord = false
-    
+
     init(toolName: String, sample: AudioSample) {
         id = UUID()
         self.toolName = toolName
