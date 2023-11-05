@@ -10,9 +10,7 @@ class AudioRecorder {
         AVAudioSession.sharedInstance().requestRecordPermission() { [unowned self] allowed in
             DispatchQueue.main.async { [unowned self] in
                 if allowed {
-                    if self.audioRecorder == nil {
-                        self.audioRecorder = try! AVAudioRecorder(url: newRecordingFileUrl(), settings: [:])
-                    }
+                    self.audioRecorder = try! AVAudioRecorder(url: newRecordingFileUrl(), settings: [:])
                     
                     self.audioRecorder!.isMeteringEnabled = true
                     self.audioRecorder!.record()
@@ -27,7 +25,9 @@ class AudioRecorder {
     
     func stopRecording() -> URL? {
         audioRecorder?.stop()
-        return audioRecorder?.url
+        let url = audioRecorder?.url
+        audioRecorder = nil
+        return url
     }
     
     func clearFiles() {
