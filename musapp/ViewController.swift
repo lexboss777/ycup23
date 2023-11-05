@@ -476,16 +476,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         volumeSlider.isHidden = true
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
         volumeSlider.tintColor = .accent
-        volumeSlider.addAction { [weak self] in
-            guard let self = self else { return }
-            guard let layer = self.selectedLayer else { return }
-            
-            layer.volume = self.volumeSlider.value
-            
-            if layer.id == playingLayerUUID {
-                layerPlayer.volume = layer.volume
-            }
-        }
+        volumeSlider.addTarget(self, action: #selector(volumeSliderValueChanged(_:)), for: .valueChanged)
         volumeSlider.setThumbImage(getSliderThumb("громкость"), for: .normal)
         view.addSubview(volumeSlider)
         
@@ -653,6 +644,18 @@ class ViewController: UIViewController, ToolViewDelegate {
         
         if isPlayingMix {
             appendLayerIntoMix(layer)
+        }
+    }
+    
+    // MARK: - Handlers
+    
+    @objc func volumeSliderValueChanged(_ sender: UISlider) {
+        guard let layer = self.selectedLayer else { return }
+        
+        layer.volume = self.volumeSlider.value
+        
+        if layer.id == playingLayerUUID {
+            layerPlayer.volume = layer.volume
         }
     }
 }
