@@ -485,12 +485,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         speedSlider.minimumValue = minSpeed
         speedSlider.maximumValue = maxSpeed
         speedSlider.tintColor = .accent
-        speedSlider.addAction { [weak self] in
-            guard let self = self else { return }
-            guard let layer = self.selectedLayer else { return }
-            
-            layer.interval = self.maxSpeed - self.speedSlider.value
-        }
+        speedSlider.addTarget(self, action: #selector(speedSliderValueChanged(_:)), for: .valueChanged)
         speedSlider.setThumbImage(getSliderThumb("скорость"), for: .normal)
         view.addSubview(speedSlider)
         
@@ -657,6 +652,12 @@ class ViewController: UIViewController, ToolViewDelegate {
         if layer.id == playingLayerUUID {
             layerPlayer.volume = layer.volume
         }
+    }
+    
+    @objc func speedSliderValueChanged(_ sender: UISlider) {
+        guard let layer = self.selectedLayer else { return }
+        
+        layer.interval = self.maxSpeed - self.speedSlider.value
     }
 }
 
