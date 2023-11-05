@@ -375,6 +375,20 @@ class ViewController: UIViewController, ToolViewDelegate {
         present(alert, animated: true, completion: nil)
     }
     
+    private func getSliderThumb(_ text: String) -> UIImage {
+        let thumb = UILabel()
+        thumb.text = text
+        thumb.backgroundColor = .accent
+        thumb.textColor = .black
+        thumb.layer.masksToBounds = true
+        thumb.layer.cornerRadius = 4.0
+        thumb.sizeToFit()
+        thumb.setWidth(thumb.frame.width + 13)
+        thumb.setHeight(thumb.frame.height + 2)
+        thumb.textAlignment = .center
+        return thumb.asImage();
+    }
+    
     // MARK: - internal methods
     
     internal func updateLayers() {
@@ -462,11 +476,13 @@ class ViewController: UIViewController, ToolViewDelegate {
         volumeSlider.isHidden = true
         volumeSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
         volumeSlider.tintColor = .accent
-        volumeSlider.addAction { [unowned self] in
+        volumeSlider.addAction { [weak self] in
+            guard let self = self else { return }
             guard let layer = self.selectedLayer else { return }
             
             layer.volume = self.volumeSlider.value
         }
+        volumeSlider.setThumbImage(getSliderThumb("громкость"), for: .normal)
         view.addSubview(volumeSlider)
         
         speedSlider = UISlider()
@@ -474,11 +490,13 @@ class ViewController: UIViewController, ToolViewDelegate {
         speedSlider.minimumValue = minSpeed
         speedSlider.maximumValue = maxSpeed
         speedSlider.tintColor = .accent
-        speedSlider.addAction { [unowned self] in
+        speedSlider.addAction { [weak self] in
+            guard let self = self else { return }
             guard let layer = self.selectedLayer else { return }
             
             layer.interval = self.maxSpeed - self.speedSlider.value
         }
+        speedSlider.setThumbImage(getSliderThumb("скорость"), for: .normal)
         view.addSubview(speedSlider)
         
         layersTableView = UITableView()
