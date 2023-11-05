@@ -400,6 +400,9 @@ class ViewController: UIViewController, ToolViewDelegate {
         engine.output = layerPlayer
         try! engine.start()
         
+        fft = FFTTap.init(layerPlayer, callbackQueue: DispatchQueue.main, handler: handleFFT)
+        fft?.start()
+        
         try! layerPlayer.load(url: layer.sample.path)
         
         layerPlayer.play()
