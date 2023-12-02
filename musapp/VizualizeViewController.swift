@@ -15,8 +15,8 @@ class VizualizeViewController: UIViewController {
     var maxSpiralId = 2
     var spiral: UIImageView!
     
-    var zig: UIImageView!
-    var twoTriangWhite: UIImageView!
+    var zigzag: UIImageView!
+    var triangle: UIImageView!
     
     var isAnimatingPrivate = true
     
@@ -50,11 +50,11 @@ class VizualizeViewController: UIViewController {
         spiral = UIImageView(image: UIImage(named: "spiral")!)
         view.addSubview(spiral)
         
-        zig = UIImageView(image: UIImage(named: "zig")!)
-        view.addSubview(zig)
+        zigzag = UIImageView(image: UIImage(named: "zig")!)
+        view.addSubview(zigzag)
         
-        twoTriangWhite = UIImageView(image: UIImage(named: "two_triangle"))
-        view.addSubview(twoTriangWhite)
+        triangle = UIImageView(image: UIImage(named: "two_triangle"))
+        view.addSubview(triangle)
         
         playBtn = createButton(pauseIcon, 18)
         playBtn.configuration!.image = self.getImage(isAnimating ? pauseIcon : playIcon)
@@ -83,12 +83,12 @@ class VizualizeViewController: UIViewController {
             spiral.move(0.2 * w, 0.6 * h)
         }
         
-        if zig != nil {
-            zig.move(0.15 * w, 0.35 * h)
+        if zigzag != nil {
+            zigzag.move(0.15 * w, 0.35 * h)
         }
         
-        if twoTriangWhite != nil {
-            twoTriangWhite.move(0.5 * w, 0.5 * h)
+        if triangle != nil {
+            triangle.move(0.5 * w, 0.5 * h)
         }
         
         if playBtn != nil {
@@ -103,17 +103,17 @@ class VizualizeViewController: UIViewController {
         animateSpiral()
         
         UIView.animate(withDuration: 2.0, delay: 0, options: [.repeat, .autoreverse], animations: {
-            self.zig.transform = self.zig.transform.scaledBy(x: 1.0, y: 0.5)
+            self.zigzag.transform = self.zigzag.transform.scaledBy(x: 1.0, y: 0.5)
         }, completion: nil)
         
-        scaleAnimation(view: twoTriangWhite, [1.0, 1.2, 1.0], [0, 0.5, 1])
+        scaleAnimation(view: triangle, [1.0, 1.2, 1.0], [0, 0.5, 1])
     }
     
     func stopAnimations() {
         threeDots.layer.removeAllAnimations()
         spiral.layer.removeAllAnimations()
-        zig.layer.removeAllAnimations()
-        twoTriangWhite.layer.removeAllAnimations()
+        zigzag.layer.removeAllAnimations()
+        triangle.layer.removeAllAnimations()
     }
     
     private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
