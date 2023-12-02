@@ -109,7 +109,7 @@ class VizualizeViewController: UIViewController {
             self.zigzag.transform = self.zigzag.transform.scaledBy(x: 1.0, y: 0.5)
         }, completion: nil)
         
-        scaleAnimation(view: triangle, [1.0, 1.2, 1.0], [0, 0.5, 1])
+        animateTriangle()
     }
     
     func stopAnimations() {
@@ -134,18 +134,18 @@ class VizualizeViewController: UIViewController {
         return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: ps, weight: .semibold))
     }
     
-    private func animateTriangle(view: UIView) {
+    private func animateTriangle() {
         
-        UIView.animate(withDuration: 1.5, delay: 0, options: [ .autoreverse, .curveLinear ], animations: { () -> Void in
+        UIView.animate(withDuration: 1.5, delay: 0, options: [ .curveLinear ], animations: { () -> Void in
             self.triangle.transform = CGAffineTransform.identity.scaledBy(x: 0.7, y: 0.7)
         }) { (finished) -> Void in
             if finished {
                 
                 self.updateTriangleImage()
                 
-                if self.isAnimating {
-                    self.animateTriangle()
-                }
+//                if self.isAnimating {
+//                    self.animateTriangle()
+//                }
             }
         }
     }
@@ -176,17 +176,17 @@ class VizualizeViewController: UIViewController {
     }
     
     func updateTriangleImage() {
-        spiralId += 1
-        if spiralId > maxSpiralId {
-            spiralId = 0
+        trnId += 1
+        if trnId > maxTrnId {
+            trnId = 0
         }
         
-        if spiralId == 0 {
-            spiral.image = UIImage(named: "spiral")!
-        } else if spiralId == 1 {
-            spiral.image = UIImage(named: "spiral_white")!
-        } else if spiralId == 2 {
-            spiral.image = UIImage(named: "spiral_yellow")!
+        if trnId == 0 {
+            triangle.image = UIImage(named: "two_triangle")!
+        } else if trnId == 1 {
+            triangle.image = UIImage(named: "triangle_filled")!
+        } else if trnId == 2 {
+            triangle.image = UIImage(named: "triangle_yellow")!
         }
     }
     
