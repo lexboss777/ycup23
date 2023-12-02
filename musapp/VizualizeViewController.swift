@@ -10,6 +10,8 @@ class VizualizeViewController: UIViewController {
     var spiral: UIImageView!
     var zig: UIImageView!
     
+    var playBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,6 +34,13 @@ class VizualizeViewController: UIViewController {
         
         zig = UIImageView(image: UIImage(named: "zig")!)
         view.addSubview(zig)
+        
+        playBtn = createButton("play.fill", 12)
+        playBtn.addAction { [weak self] in
+            guard let self = self else { return }
+            self.playBtnClicked()
+        }
+        view.addSubview(playBtn)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +69,22 @@ class VizualizeViewController: UIViewController {
         if zig != nil {
             zig.move(0.15 * w, 0.35 * h)
         }
+    }
+    
+    private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
+        let btn = UIButton(type: .system)
+        var configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = .white
+        configuration.baseForegroundColor = .black
+        configuration.image = getImage(icon, iconPointSize)
+        btn.layer.cornerRadius = 4.0
+        btn.configuration = configuration
+        view.addSubview(btn)
+        return btn
+    }
+    
+    private func getImage(_ name: String, _ ps: CGFloat = 12) -> UIImage? {
+        return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: ps, weight: .semibold))
     }
     
     func animateThreeDots() {
@@ -96,5 +121,9 @@ class VizualizeViewController: UIViewController {
     
     @objc func goBack(_ sender: UIButton) {
         self.navigationController!.popViewController(animated: true)
+    }
+    
+    private func playBtnClicked() {
+        
     }
 }
