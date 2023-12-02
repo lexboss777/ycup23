@@ -15,6 +15,10 @@ class VizualizeViewController: UIViewController {
     var maxSpiralId = 2
     var spiral: UIImageView!
     
+    var circlelId = 0
+    var maxCircleId = 2
+    var circle: UIImageView!
+    
     var zigzag: UIImageView!
     
     var lines: UIImageView!
@@ -54,6 +58,9 @@ class VizualizeViewController: UIViewController {
         
         spiral = UIImageView(image: UIImage(named: "spiral")!)
         view.addSubview(spiral)
+        
+        circle = UIImageView(image: UIImage(named: "circle")!)
+        view.addSubview(circle)
         
         zigzag = UIImageView(image: UIImage(named: "zig")!)
         view.addSubview(zigzag)
