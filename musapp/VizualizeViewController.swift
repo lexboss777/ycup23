@@ -10,7 +10,11 @@ class VizualizeViewController: UIViewController {
     let pauseIcon = "pause.fill"
     
     var threeDots: UIView!
+    
+    var spiralId = 0
+    var maxSpiralId = 2
     var spiral: UIImageView!
+    
     var zig: UIImageView!
     var twoTriangWhite: UIImageView!
     
@@ -162,12 +166,30 @@ class VizualizeViewController: UIViewController {
         })
     }
     
+    func updateSpiralImage() {
+        spiralId += 1
+        if spiralId > maxSpiralId {
+            spiralId = 0
+        }
+        
+        if spiralId == 0 {
+            spiral.image = UIImage(named: "spiral")!
+        } else if spiralId == 1 {
+            spiral.image = UIImage(named: "spiral_white")!
+        } else if spiralId == 2 {
+            spiral.image = UIImage(named: "spiral_yellow")!
+        }
+    }
+    
     func animateSpiral() {
         
         UIView.animate(withDuration: 3, delay: 0, options: [ .autoreverse, .curveLinear ], animations: { () -> Void in
                 self.spiral.transform = self.spiral.transform.rotated(by: .pi * 3)
         }) { (finished) -> Void in
             if finished {
+                
+                self.updateSpiralImage()
+                
                 if self.isAnimating {
                     self.animateSpiral()
                 }
