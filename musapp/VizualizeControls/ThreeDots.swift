@@ -1,10 +1,3 @@
-//
-//  ThreeDots.swift
-//  musapp
-//
-//  Created by Ilnur Shafigullin on 02.12.2023.
-//
-
 import Foundation
 import UIKit
 
@@ -41,7 +34,7 @@ class ThreeDots : UIView {
     }
     
     func getDotView() -> UIView {
-        var v = UIView()
+        let v = UIView()
         v.backgroundColor = UIColor(0x5A50E2)
         addSubview(v)
         return v
@@ -52,6 +45,6 @@ class ThreeDots : UIView {
     }
     
     override func sizeToFit() {
-        
+        super.sizeToFit()
     }
 }
