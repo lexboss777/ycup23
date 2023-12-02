@@ -14,6 +14,10 @@ class VizualizeViewController: UIViewController {
         
         view.backgroundColor = .black
         
+        var backImg = UIImage(named: "back")
+        backImg = backImg?.withRenderingMode(.alwaysOriginal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImg, style: .plain, target: self, action: #selector(goBack))
+        
         threeDots = ThreeDots()
         view.addSubview(threeDots)
         animateThreeDots()
@@ -64,5 +68,9 @@ class VizualizeViewController: UIViewController {
         rotateAnimation.duration = duration
         rotateAnimation.repeatCount=Float.infinity
         spiral.layer.add(rotateAnimation, forKey: nil)
+    }
+    
+    @objc func goBack(_ sender: UIButton) {
+        self.navigationController!.popViewController(animated: true)
     }
 }
