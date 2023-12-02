@@ -54,7 +54,7 @@ class VizualizeViewController: UIViewController {
         }
         
         if zig != nil {
-            zig.move(0.15 * w, 0.55 * h)
+            zig.move(0.15 * w, 0.35 * h)
         }
     }
     
@@ -65,7 +65,6 @@ class VizualizeViewController: UIViewController {
             let randomY = CGFloat.random(in: 20 ... 600)
             
             threeDots.center = CGPoint(x: self.threeDots.frame.origin.x + randomX, y: threeDots.frame.origin.y + randomY)
-            self.view.layoutIfNeeded()
         }, completion: { finished in
         })
     }
@@ -78,7 +77,7 @@ class VizualizeViewController: UIViewController {
         rotateAnimation.isRemovedOnCompletion = false
         rotateAnimation.duration = duration
         rotateAnimation.repeatCount=Float.infinity
-        spiral.layer.add(rotateAnimation, forKey: nil)
+        spiral.layer.add(rotateAnimation, forKey: "spiral")
     }
     
     func animateZigZag() {
@@ -88,7 +87,7 @@ class VizualizeViewController: UIViewController {
         animation.keyTimes = [0, 0.5, 1]
         animation.duration = 1.5
         animation.repeatCount = Float.infinity
-        //zig.layer.add(animation, forKey: nil)
+        zig.layer.add(animation, forKey: "zigzag")
     }
     
     @objc func goBack(_ sender: UIButton) {
