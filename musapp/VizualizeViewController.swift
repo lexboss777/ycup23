@@ -45,9 +45,16 @@ class VizualizeViewController: UIViewController {
         
         view.backgroundColor = .black
         
-        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
-        title = "Название трека"
+        let titleView = UILabel()
+        titleView.text = "Название трека"
+        titleView.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
+        titleView.textColor = .white
+        let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
+        titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
+        self.navigationItem.titleView = titleView
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped))
+        titleView.isUserInteractionEnabled = true
+        titleView.addGestureRecognizer(recognizer)
         
         var backImg = UIImage(named: "back")
         backImg = backImg?.withRenderingMode(.alwaysOriginal)
@@ -78,6 +85,16 @@ class VizualizeViewController: UIViewController {
             self.playBtnClicked()
         }
         view.addSubview(playBtn)
+    }
+    
+    @objc func titleWasTapped(_ sender: UITapGestureRecognizer){
+        
+        let alert = UIAlertController(title: "Rename", message: "", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        alert.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Enter text:"
+        })
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
