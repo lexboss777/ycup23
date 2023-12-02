@@ -132,7 +132,9 @@ class VizualizeViewController: UIViewController {
             
             threeDots.center = CGPoint(x: newX, y: newY)
         }, completion: { finished in
-            self.animateThreeDots()
+            if self.isAnimating {
+                self.animateThreeDots()
+            }
         })
     }
     
