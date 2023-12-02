@@ -89,15 +89,22 @@ class VizualizeViewController: UIViewController {
         view.addSubview(playBtn)
     }
     
+    var tf: UITextField!
+    
+    @objc func okWasTapped(_ sender: UIAlertAction!) {
+        self.titleView.text = tf?.text ?? "nil"
+    }
+    
     @objc func titleWasTapped(_ sender: UITapGestureRecognizer){
         
         let alert = UIAlertController(title: "Rename", message: "", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: okWasTapped))
         alert.addTextField(configurationHandler: {(textField: UITextField!) in
+            self.tf = textField
             textField.placeholder = "Enter text:"
         })
         self.present(alert, animated: true, completion: {
-            self.titleView.text = alert.textFields?[0].text ?? "nil"
+            
         })
     }
     
