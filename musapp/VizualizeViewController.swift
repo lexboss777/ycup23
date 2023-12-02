@@ -29,6 +29,8 @@ class VizualizeViewController: UIViewController {
     
     var isAnimatingPrivate = true
     
+    var titleView: UILabel!
+    
     var isAnimating: Bool {
         
         guard let mainVC = mainVC else { return isAnimatingPrivate }
@@ -45,7 +47,7 @@ class VizualizeViewController: UIViewController {
         
         view.backgroundColor = .black
         
-        let titleView = UILabel()
+        titleView = UILabel()
         titleView.text = "Название трека"
         titleView.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
         titleView.textColor = .white
@@ -94,7 +96,9 @@ class VizualizeViewController: UIViewController {
         alert.addTextField(configurationHandler: {(textField: UITextField!) in
             textField.placeholder = "Enter text:"
         })
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: {
+            self.titleView.text = alert.textFields?[0].text ?? "nil"
+        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
