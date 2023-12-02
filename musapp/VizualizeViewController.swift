@@ -41,7 +41,6 @@ class VizualizeViewController: UIViewController {
         
         threeDots = ThreeDots()
         view.addSubview(threeDots)
-        animateThreeDots()
         
         spiral = UIImageView(image: UIImage(named: "spiral")!)
         view.addSubview(spiral)
@@ -115,13 +114,25 @@ class VizualizeViewController: UIViewController {
     }
     
     func animateThreeDots() {
-        UIView.animate(withDuration: 5, delay: TimeInterval(0), options: [.repeat, .curveEaseIn], animations: { [self] () -> Void in
+        UIView.animate(withDuration: 5, delay: TimeInterval(0), options: [.curveEaseIn], animations: { [self] () -> Void in
             
-            let randomX = CGFloat.random(in: 14 ... 200)
-            let randomY = CGFloat.random(in: 20 ... 600)
+            let randomX = CGFloat.random(in: -50 ... 200)
+            let randomY = CGFloat.random(in: -100 ... 600)
             
-            threeDots.center = CGPoint(x: self.threeDots.frame.origin.x + randomX, y: threeDots.frame.origin.y + randomY)
+            var newX = self.threeDots.frame.origin.x + randomX
+            var newY = threeDots.frame.origin.y + randomY
+            
+            if newX > self.view.frame.width {
+                newX -= threeDots.frame.origin.x
+            }
+            
+            if newY > self.view.frame.height {
+                newY -= threeDots.frame.origin.y
+            }
+            
+            threeDots.center = CGPoint(x: newX, y: newY)
         }, completion: { finished in
+            self.animateThreeDots()
         })
     }
     
