@@ -15,6 +15,10 @@ class VizualizeViewController: UIViewController {
         
         view.backgroundColor = .black
         
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        title = "Название трека"
+        
         var backImg = UIImage(named: "back")
         backImg = backImg?.withRenderingMode(.alwaysOriginal)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImg, style: .plain, target: self, action: #selector(goBack))
