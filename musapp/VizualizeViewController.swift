@@ -102,6 +102,9 @@ class VizualizeViewController: UIViewController {
     }
     
     func startAnimations() {
+        
+        updateTriangleImage()
+        
         animateThreeDots()
         animateSpiral()
         
@@ -136,16 +139,16 @@ class VizualizeViewController: UIViewController {
     
     private func animateTriangle() {
         
-        UIView.animate(withDuration: 1.5, delay: 0, options: [ .curveLinear ], animations: { () -> Void in
+        UIView.animate(withDuration: 1.5, delay: 0, options: [ .autoreverse, .curveLinear ], animations: { () -> Void in
             self.triangle.transform = CGAffineTransform.identity.scaledBy(x: 0.7, y: 0.7)
         }) { (finished) -> Void in
             if finished {
                 
-                self.updateTriangleImage()
+                self.triangle.transform = CGAffineTransform.identity
                 
-//                if self.isAnimating {
-//                    self.animateTriangle()
-//                }
+                if self.isAnimating {
+                    self.animateTriangle()
+                }
             }
         }
     }
