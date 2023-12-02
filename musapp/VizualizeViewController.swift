@@ -10,6 +10,7 @@ class VizualizeViewController: UIViewController {
     var spiral: UIImageView!
     var zig: UIImageView!
     
+    var isAnimating = true
     var playBtn: UIButton!
     
     weak var mainVC: ViewController?
@@ -46,14 +47,9 @@ class VizualizeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        animateThreeDots()
-        animateSpiral()
-        animateZigZag()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        threeDots.layer.removeAllAnimations()
-        spiral.layer.removeAllAnimations()
+        if isAnimating {
+            startAnimations()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -77,6 +73,18 @@ class VizualizeViewController: UIViewController {
             playBtn.centerHorizontallyInView(self.view)
             playBtn.setTop(view.frame.height - playBtn.frame.height - 40)
         }
+    }
+    
+    func startAnimations() {
+        animateThreeDots()
+        animateSpiral()
+        animateZigZag()
+    }
+    
+    func stopAnimations() {
+        threeDots.layer.removeAllAnimations()
+        spiral.layer.removeAllAnimations()
+        zig.layer.removeAllAnimations()
     }
     
     private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
@@ -131,6 +139,12 @@ class VizualizeViewController: UIViewController {
     }
     
     private func playBtnClicked() {
+        isAnimating.toggle()
         
+        if isAnimating {
+            startAnimations()
+        } else {
+            stopAnimations()
+        }
     }
 }
