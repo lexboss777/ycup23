@@ -10,7 +10,15 @@ class VizualizeViewController: UIViewController {
     var spiral: UIImageView!
     var zig: UIImageView!
     
-    var isAnimating = true
+    var isAnimatingPrivate = true
+    
+    var isAnimating: Bool {
+        
+        guard let mainVC = mainVC else { return isAnimatingPrivate }
+        
+        return mainVC.isPlayingMix
+    }
+    
     var playBtn: UIButton!
     
     weak var mainVC: ViewController?
@@ -139,7 +147,18 @@ class VizualizeViewController: UIViewController {
     }
     
     private func playBtnClicked() {
-        isAnimating.toggle()
+        
+        guard let mainVC = mainVC else {
+            playBtnClickedDebug()
+            return
+        }
+        
+        mainVC.playBtnClicked(false)
+    }
+    
+    func playBtnClickedDebug() {
+        
+        isAnimatingPrivate.toggle()
         
         if isAnimating {
             startAnimations()

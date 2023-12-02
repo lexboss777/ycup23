@@ -267,7 +267,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         }
     }
 
-    private func playBtnClicked(_ record: Bool) {
+    func playBtnClicked(_ record: Bool) {
         if playingLayerUUID != nil {
             stopPlayLayer()
             updateLayers()
