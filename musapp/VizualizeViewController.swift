@@ -12,6 +12,8 @@ class VizualizeViewController: UIViewController {
     
     var playBtn: UIButton!
     
+    weak var mainVC: ViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,7 +37,7 @@ class VizualizeViewController: UIViewController {
         zig = UIImageView(image: UIImage(named: "zig")!)
         view.addSubview(zig)
         
-        playBtn = createButton("play.fill", 12)
+        playBtn = createButton("play.fill", 18)
         playBtn.addAction { [weak self] in
             guard let self = self else { return }
             self.playBtnClicked()
@@ -69,13 +71,18 @@ class VizualizeViewController: UIViewController {
         if zig != nil {
             zig.move(0.15 * w, 0.35 * h)
         }
+        
+        if playBtn != nil {
+            playBtn.sizeToFit()
+            playBtn.centerHorizontallyInView(self.view)
+            playBtn.setTop(view.frame.height - playBtn.frame.height - 40)
+        }
     }
     
     private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
         let btn = UIButton(type: .system)
-        var configuration = UIButton.Configuration.filled()
-        configuration.baseBackgroundColor = .white
-        configuration.baseForegroundColor = .black
+        var configuration = UIButton.Configuration.borderless()
+        configuration.baseForegroundColor = .accent
         configuration.image = getImage(icon, iconPointSize)
         btn.layer.cornerRadius = 4.0
         btn.configuration = configuration
