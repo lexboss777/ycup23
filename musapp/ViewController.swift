@@ -461,6 +461,7 @@ class ViewController: UIViewController, ToolViewDelegate {
         view.addSubview(layersBtn)
 
         amplitudeView = AmplitudeView()
+        amplitudeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAmplitudeViewTap(_:))))
         view.addSubview(amplitudeView)
 
         gradientLayer = CAGradientLayer()
@@ -662,5 +663,10 @@ class ViewController: UIViewController, ToolViewDelegate {
         guard let layer = self.selectedLayer else { return }
 
         layer.interval = self.maxSpeed - self.speedSlider.value
+    }
+    
+    @objc func handleAmplitudeViewTap(_ sender: UISlider) {
+        let vc = VizualizeViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
