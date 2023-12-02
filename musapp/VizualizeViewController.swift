@@ -163,14 +163,16 @@ class VizualizeViewController: UIViewController {
     }
     
     func animateSpiral() {
-        let duration: CFTimeInterval = 3
-        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
-        rotateAnimation.fromValue = 0.0
-        rotateAnimation.toValue = CGFloat(Double.pi * 2)
-        rotateAnimation.isRemovedOnCompletion = false
-        rotateAnimation.duration = duration
-        rotateAnimation.repeatCount=Float.infinity
-        spiral.layer.add(rotateAnimation, forKey: "spiral")
+        
+        UIView.animate(withDuration: 3, delay: 0, options: [ .autoreverse, .curveLinear ], animations: { () -> Void in
+                self.spiral.transform = self.spiral.transform.rotated(by: .pi * 3)
+        }) { (finished) -> Void in
+            if finished {
+                if self.isAnimating {
+                    self.animateSpiral()
+                }
+            }
+        }
     }
     
     @objc func goBack(_ sender: UIButton) {
