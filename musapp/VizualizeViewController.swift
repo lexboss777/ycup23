@@ -157,10 +157,12 @@ class VizualizeViewController: UIViewController {
         animateSpiral()
         animateCircle()
         
+        self.zigzag.transform = CGAffineTransform.identity
         UIView.animate(withDuration: 2.0, delay: 0, options: [.repeat, .autoreverse], animations: {
             self.zigzag.transform = self.zigzag.transform.scaledBy(x: 1.0, y: 0.5)
         }, completion: nil)
         
+        self.lines.transform = CGAffineTransform.identity
         UIView.animate(withDuration: 2.5, delay: 0, options: [.repeat, .autoreverse], animations: {
             self.lines.transform = self.lines.transform.scaledBy(x: 1.0, y: 3.5)
         }, completion: nil)
@@ -173,6 +175,8 @@ class VizualizeViewController: UIViewController {
         spiral.layer.removeAllAnimations()
         zigzag.layer.removeAllAnimations()
         triangle.layer.removeAllAnimations()
+        circle.layer.removeAllAnimations()
+        lines.layer.removeAllAnimations()
     }
     
     private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
