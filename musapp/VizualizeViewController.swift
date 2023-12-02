@@ -8,6 +8,7 @@ class VizualizeViewController: UIViewController {
     
     var threeDots: UIView!
     var spiral: UIImageView!
+    var zig: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,13 +25,19 @@ class VizualizeViewController: UIViewController {
         
         spiral = UIImageView(image: UIImage(named: "spiral")!)
         view.addSubview(spiral)
+        
+        zig = UIImageView(image: UIImage(named: "zig")!)
+        view.addSubview(zig)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        animateThreeDots()
         animateSpiral()
+        animateZigZag()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        threeDots.layer.removeAllAnimations()
         spiral.layer.removeAllAnimations()
     }
     
@@ -44,6 +51,10 @@ class VizualizeViewController: UIViewController {
         
         if spiral != nil {
             spiral.move(0.2 * w, 0.6 * h)
+        }
+        
+        if zig != nil {
+            zig.move(0.15 * w, 0.55 * h)
         }
     }
     
@@ -68,6 +79,16 @@ class VizualizeViewController: UIViewController {
         rotateAnimation.duration = duration
         rotateAnimation.repeatCount=Float.infinity
         spiral.layer.add(rotateAnimation, forKey: nil)
+    }
+    
+    func animateZigZag() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.scale")
+        
+        animation.values = [1.0, 1.2, 1.0]
+        animation.keyTimes = [0, 0.5, 1]
+        animation.duration = 1.5
+        animation.repeatCount = Float.infinity
+        //zig.layer.add(animation, forKey: nil)
     }
     
     @objc func goBack(_ sender: UIButton) {
