@@ -6,6 +6,9 @@ import AVFoundation
 
 class VizualizeViewController: UIViewController {
     
+    let playIcon = "play.fill"
+    let pauseIcon = "pause.fill"
+    
     var threeDots: UIView!
     var spiral: UIImageView!
     var zig: UIImageView!
@@ -46,7 +49,8 @@ class VizualizeViewController: UIViewController {
         zig = UIImageView(image: UIImage(named: "zig")!)
         view.addSubview(zig)
         
-        playBtn = createButton("play.fill", 18)
+        playBtn = createButton(pauseIcon, 18)
+        playBtn.configuration!.image = self.getImage(isAnimating ? pauseIcon : playIcon)
         playBtn.addAction { [weak self] in
             guard let self = self else { return }
             self.playBtnClicked()
@@ -154,22 +158,21 @@ class VizualizeViewController: UIViewController {
         }
         
         mainVC.playBtnClicked(false)
-        
-        if isAnimating {
-            startAnimations()
-        } else {
-            stopAnimations()
-        }
+        handleIsAnimating()
     }
     
     func playBtnClickedDebug() {
-        
         isAnimatingPrivate.toggle()
-        
+        handleIsAnimating()
+    }
+    
+    func handleIsAnimating () {
         if isAnimating {
             startAnimations()
         } else {
             stopAnimations()
         }
+        
+        playBtn.configuration!.image = self.getImage(isAnimating ? pauseIcon : playIcon)
     }
 }
