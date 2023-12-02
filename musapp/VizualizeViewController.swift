@@ -12,6 +12,7 @@ class VizualizeViewController: UIViewController {
     var threeDots: UIView!
     var spiral: UIImageView!
     var zig: UIImageView!
+    var twoTriangWhite: UIImageView!
     
     var isAnimatingPrivate = true
     
@@ -47,6 +48,9 @@ class VizualizeViewController: UIViewController {
         
         zig = UIImageView(image: UIImage(named: "zig")!)
         view.addSubview(zig)
+        
+        twoTriangWhite = UIImageView(image: UIImage(named: "two_triangle"))
+        view.addSubview(twoTriangWhite)
         
         playBtn = createButton(pauseIcon, 18)
         playBtn.configuration!.image = self.getImage(isAnimating ? pauseIcon : playIcon)
@@ -89,7 +93,8 @@ class VizualizeViewController: UIViewController {
     func startAnimations() {
         animateThreeDots()
         animateSpiral()
-        animateZigZag()
+        scaleAnimation(view: zig, [1.0, 2.2, 1.0], [0, 1.5, 2])
+        scaleAnimation(view: twoTriangWhite, [1.0, 1.2, 1.0], [0, 0.5, 1])
     }
     
     func stopAnimations() {
@@ -111,6 +116,16 @@ class VizualizeViewController: UIViewController {
     
     private func getImage(_ name: String, _ ps: CGFloat = 12) -> UIImage? {
         return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: ps, weight: .semibold))
+    }
+    
+    private func scaleAnimation(view: UIView, _ values: [Float], _ keyTimes: [NSNumber]) {
+        let animation = CAKeyframeAnimation(keyPath: "transform.scale")
+        
+        animation.values = values
+        animation.keyTimes = keyTimes
+        animation.duration = 1.5
+        animation.repeatCount = Float.infinity
+        view.layer.add(animation, forKey: "zigzag")
     }
     
     func animateThreeDots() {
@@ -147,16 +162,6 @@ class VizualizeViewController: UIViewController {
         rotateAnimation.duration = duration
         rotateAnimation.repeatCount=Float.infinity
         spiral.layer.add(rotateAnimation, forKey: "spiral")
-    }
-    
-    func animateZigZag() {
-        let animation = CAKeyframeAnimation(keyPath: "transform.scale")
-        
-        animation.values = [1.0, 1.2, 1.0]
-        animation.keyTimes = [0, 0.5, 1]
-        animation.duration = 1.5
-        animation.repeatCount = Float.infinity
-        zig.layer.add(animation, forKey: "zigzag")
     }
     
     @objc func goBack(_ sender: UIButton) {
