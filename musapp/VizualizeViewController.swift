@@ -98,6 +98,10 @@ class VizualizeViewController: UIViewController {
             spiral.move(0.2 * w, 0.6 * h)
         }
         
+        if circle != nil {
+            circle.move(0.7 * w, 0.4 * h)
+        }
+        
         if zigzag != nil {
             zigzag.move(0.15 * w, 0.35 * h)
         }
@@ -123,6 +127,7 @@ class VizualizeViewController: UIViewController {
         
         animateThreeDots()
         animateSpiral()
+        animateCircle()
         
         UIView.animate(withDuration: 2.0, delay: 0, options: [.repeat, .autoreverse], animations: {
             self.zigzag.transform = self.zigzag.transform.scaledBy(x: 1.0, y: 0.5)
@@ -228,6 +233,21 @@ class VizualizeViewController: UIViewController {
         }
     }
     
+    func updateCircleImage() {
+        circlelId += 1
+        if circlelId > maxCircleId {
+            circlelId = 0
+        }
+        
+        if circlelId == 0 {
+            circle.image = UIImage(named: "circle")!
+        } else if circlelId == 1 {
+            circle.image = UIImage(named: "circle_1")!
+        } else if circlelId == 2 {
+            circle.image = UIImage(named: "circle_2")!
+        }
+    }
+    
     func animateSpiral() {
         
         UIView.animate(withDuration: 3, delay: 0, options: [ .autoreverse, .curveLinear ], animations: { () -> Void in
@@ -239,6 +259,22 @@ class VizualizeViewController: UIViewController {
                 
                 if self.isAnimating {
                     self.animateSpiral()
+                }
+            }
+        }
+    }
+    
+    func animateCircle() {
+        
+        UIView.animate(withDuration: 5, delay: 0, options: [ .autoreverse, .curveLinear ], animations: { () -> Void in
+            self.circle.transform = self.circle.transform.rotated(by: .pi * 1.5)
+        }) { (finished) -> Void in
+            if finished {
+                
+                self.updateCircleImage()
+                
+                if self.isAnimating {
+                    self.animateCircle()
                 }
             }
         }
