@@ -97,7 +97,11 @@ class VizualizeViewController: UIViewController {
     func startAnimations() {
         animateThreeDots()
         animateSpiral()
-        scaleAnimation(view: zig, [1.0, 2.2, 1.0], [0, 1.5, 2])
+        
+        UIView.animate(withDuration: 2.0, delay: 0, options: [.repeat, .autoreverse], animations: {
+            self.zig.transform = self.zig.transform.scaledBy(x: 1.0, y: 0.5)
+        }, completion: nil)
+        
         scaleAnimation(view: twoTriangWhite, [1.0, 1.2, 1.0], [0, 0.5, 1])
     }
     
@@ -105,6 +109,7 @@ class VizualizeViewController: UIViewController {
         threeDots.layer.removeAllAnimations()
         spiral.layer.removeAllAnimations()
         zig.layer.removeAllAnimations()
+        twoTriangWhite.layer.removeAllAnimations()
     }
     
     private func createButton(_ icon: String, _ iconPointSize: CGFloat) -> UIButton {
