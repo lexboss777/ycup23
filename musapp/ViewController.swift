@@ -601,9 +601,14 @@ class ViewController: UIViewController, ToolViewDelegate {
         layersTableView.setLeft(margin)
         layersTableView.setTop(layersBtn.frame.minY - amplH - layersTableView.frame.height)
     }
+    
+    var didAnimate = false
 
     override func viewDidAppear(_ animated: Bool) {
-        melodyView.animateOpenAndClose()
+        if !didAnimate {
+            didAnimate = true
+            melodyView.animateOpenAndClose()
+        }
     }
 
     // MARK: - ToolViewDelegate
