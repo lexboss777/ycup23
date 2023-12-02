@@ -99,11 +99,11 @@ class VizualizeViewController: UIViewController {
         }
         
         if circle != nil {
-            circle.move(0.7 * w, 0.4 * h)
+            circle.move(0.6 * w, 0.3 * h)
         }
         
         if zigzag != nil {
-            zigzag.move(0.15 * w, 0.35 * h)
+            zigzag.move(0.15 * w, 0.15 * h)
         }
         
         if lines != nil {
@@ -111,7 +111,7 @@ class VizualizeViewController: UIViewController {
         }
         
         if triangle != nil {
-            triangle.move(0.5 * w, 0.5 * h)
+            triangle.move(0.2 * w, 0.4 * h)
         }
         
         if playBtn != nil {
