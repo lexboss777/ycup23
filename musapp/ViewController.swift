@@ -667,6 +667,7 @@ class ViewController: UIViewController, ToolViewDelegate {
     
     @objc func handleAmplitudeViewTap(_ sender: UISlider) {
         let vc = VizualizeViewController()
+        vc.mainVC = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

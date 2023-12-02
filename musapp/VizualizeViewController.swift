@@ -154,6 +154,12 @@ class VizualizeViewController: UIViewController {
         }
         
         mainVC.playBtnClicked(false)
+        
+        if isAnimating {
+            startAnimations()
+        } else {
+            stopAnimations()
+        }
     }
     
     func playBtnClickedDebug() {
