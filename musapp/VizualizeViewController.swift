@@ -83,6 +83,10 @@ class VizualizeViewController: UIViewController {
             zig.move(0.15 * w, 0.35 * h)
         }
         
+        if twoTriangWhite != nil {
+            twoTriangWhite.move(0.5 * w, 0.5 * h)
+        }
+        
         if playBtn != nil {
             playBtn.sizeToFit()
             playBtn.centerHorizontallyInView(self.view)
