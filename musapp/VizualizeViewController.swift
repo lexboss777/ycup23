@@ -20,7 +20,14 @@ class VizualizeViewController: UIViewController {
         
         spiral = UIImageView(image: UIImage(named: "spiral")!)
         view.addSubview(spiral)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         animateSpiral()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        spiral.layer.removeAllAnimations()
     }
     
     override func viewDidLayoutSubviews() {
