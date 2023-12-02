@@ -17,6 +17,8 @@ class VizualizeViewController: UIViewController {
     
     var zigzag: UIImageView!
     
+    var lines: UIImageView!
+    
     var trnId = 0
     var maxTrnId = 2
     var triangle: UIImageView!
@@ -56,6 +58,9 @@ class VizualizeViewController: UIViewController {
         zigzag = UIImageView(image: UIImage(named: "zig")!)
         view.addSubview(zigzag)
         
+        lines = UIImageView(image: UIImage(named: "lines"))
+        view.addSubview(lines)
+        
         triangle = UIImageView(image: UIImage(named: "two_triangle"))
         view.addSubview(triangle)
         
@@ -90,6 +95,10 @@ class VizualizeViewController: UIViewController {
             zigzag.move(0.15 * w, 0.35 * h)
         }
         
+        if lines != nil {
+            lines.move(0.55 * w, 0.2 * h)
+        }
+        
         if triangle != nil {
             triangle.move(0.5 * w, 0.5 * h)
         }
@@ -110,6 +119,10 @@ class VizualizeViewController: UIViewController {
         
         UIView.animate(withDuration: 2.0, delay: 0, options: [.repeat, .autoreverse], animations: {
             self.zigzag.transform = self.zigzag.transform.scaledBy(x: 1.0, y: 0.5)
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 2.5, delay: 0, options: [.repeat, .autoreverse], animations: {
+            self.lines.transform = self.lines.transform.scaledBy(x: 1.0, y: 3.5)
         }, completion: nil)
         
         animateTriangle()
