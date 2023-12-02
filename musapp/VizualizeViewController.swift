@@ -16,6 +16,9 @@ class VizualizeViewController: UIViewController {
     var spiral: UIImageView!
     
     var zigzag: UIImageView!
+    
+    var trnId = 0
+    var maxTrnId = 2
     var triangle: UIImageView!
     
     var isAnimatingPrivate = true
@@ -131,14 +134,20 @@ class VizualizeViewController: UIViewController {
         return UIImage(systemName: name)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: ps, weight: .semibold))
     }
     
-    private func scaleAnimation(view: UIView, _ values: [Float], _ keyTimes: [NSNumber]) {
-        let animation = CAKeyframeAnimation(keyPath: "transform.scale")
+    private func animateTriangle(view: UIView) {
         
-        animation.values = values
-        animation.keyTimes = keyTimes
-        animation.duration = 1.5
-        animation.repeatCount = Float.infinity
-        view.layer.add(animation, forKey: "zigzag")
+        UIView.animate(withDuration: 1.5, delay: 0, options: [ .autoreverse, .curveLinear ], animations: { () -> Void in
+            self.triangle.transform = CGAffineTransform.identity.scaledBy(x: 0.7, y: 0.7)
+        }) { (finished) -> Void in
+            if finished {
+                
+                self.updateTriangleImage()
+                
+                if self.isAnimating {
+                    self.animateTriangle()
+                }
+            }
+        }
     }
     
     func animateThreeDots() {
@@ -164,6 +173,21 @@ class VizualizeViewController: UIViewController {
                 self.animateThreeDots()
             }
         })
+    }
+    
+    func updateTriangleImage() {
+        spiralId += 1
+        if spiralId > maxSpiralId {
+            spiralId = 0
+        }
+        
+        if spiralId == 0 {
+            spiral.image = UIImage(named: "spiral")!
+        } else if spiralId == 1 {
+            spiral.image = UIImage(named: "spiral_white")!
+        } else if spiralId == 2 {
+            spiral.image = UIImage(named: "spiral_yellow")!
+        }
     }
     
     func updateSpiralImage() {
